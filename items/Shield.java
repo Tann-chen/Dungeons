@@ -72,13 +72,13 @@ public class Shield extends Equipment{
 
      /*Archive*/
 
-    private class Archiving{
-        private static final String CLASS = "Shield";
-        private static final String ENCHANTMENT_BONUS_TYPE="BonusType";
-        private static final String ENCHANTMENT_BONUS_VALUE="BonusValue";
-        private static final String IMAGE_NAME="ImageName";
 
-    }
+    private static final String ARCHIVE_CLASS = "Shield";
+    private static final String ENCHANTMENT_BONUS_TYPE="BonusType";
+    private static final String ENCHANTMENT_BONUS_VALUE="BonusValue";
+    private static final String IMAGE_NAME="ImageName";
+
+
 
     /**
      *The method will encode the data of an armor to an element in xml tree
@@ -88,10 +88,10 @@ public class Shield extends Equipment{
     @Override
     public Element encode(){
         Element element=super.encode();
-        element.setName(Archiving.CLASS);
-        element.addElement(Archiving.ENCHANTMENT_BONUS_TYPE).addText(this.getEnchantmentBonusType());
-        element.addElement(Archiving.ENCHANTMENT_BONUS_VALUE).addText(String.valueOf(this.getBonusValue()));
-        element.addElement(Archiving.IMAGE_NAME).addText(this.imageName);
+        element.setName(ARCHIVE_CLASS);
+        element.addElement(ENCHANTMENT_BONUS_TYPE).addText(this.getEnchantmentBonusType());
+        element.addElement(ENCHANTMENT_BONUS_VALUE).addText(String.valueOf(this.getBonusValue()));
+        element.addElement(IMAGE_NAME).addText(this.imageName);
         return element;
 
     }
@@ -103,8 +103,17 @@ public class Shield extends Equipment{
     @Override
     public void decode(Element element){
         super.decode(element);
-        this.armorClassBonus=Integer.parseInt(element.element(Archiving.ENCHANTMENT_BONUS_VALUE).getText());
-        this.imageName=element.element(Archiving.IMAGE_NAME).getText();
+        int value=Integer.parseInt(element.element(ENCHANTMENT_BONUS_VALUE).getText());
+        String type= element.element(ENCHANTMENT_BONUS_TYPE).getText();
+        setEnchantmentBonus(type,value);
+        this.imageName=element.element(IMAGE_NAME).getText();
+    }
+    /**
+     *The method is used to let the equipment manager know Shield is a kind of equipments
+     * The purpose is to match the shield element in xml tree to the Shield class
+     */
+    public static void registerEquipments(){
+        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Shield.class);
     }
 
 

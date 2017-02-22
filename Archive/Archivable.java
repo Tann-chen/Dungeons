@@ -7,7 +7,7 @@ import org.dom4j.Element;
  * @version
  * This interface will be implemented for every class that needs decode and enode from/to an element in XML file
  */
-public interface IArchive {
+public interface Archivable {
     /**
      *the method will be override to decode an element to the data in system.
      */

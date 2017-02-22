@@ -123,12 +123,12 @@ public class Ring extends Equipment{
 
      /*Archive*/
     //XML为各件装备保存的属性：名称（父类那里），种类,加值的类型，加了多少，图片名字。
-    private class Archiving{
-        private static final String CLASS = "Ring";
-        private static final String ENCHANTMENT_BONUS_TYPE="BonusType";
-        private static final String ENCHANTMENT_BONUS_VALUE="BonusValue";
-        private static final String IMAGE_NAME="ImageName";
-    }
+
+    private static final String ARCHIVE_CLASS = "Ring";
+    private static final String ENCHANTMENT_BONUS_TYPE="BonusType";
+    private static final String ENCHANTMENT_BONUS_VALUE="BonusValue";
+    private static final String IMAGE_NAME="ImageName";
+
 
     /**
      *The method will encode the data of an belt to an element in xml tree
@@ -138,10 +138,10 @@ public class Ring extends Equipment{
     @Override
     public Element encode(){
         Element element=super.encode();
-        element.setName(Archiving.CLASS);
-        element.addElement(Archiving.ENCHANTMENT_BONUS_TYPE).addText(this.getEnchantmentBonusType());
-        element.addElement(Archiving.ENCHANTMENT_BONUS_VALUE).addText(String.valueOf(this.getBonusValue()));
-        element.addElement(Archiving.IMAGE_NAME).addText(this.imageName);
+        element.setName(ARCHIVE_CLASS);
+        element.addElement(ENCHANTMENT_BONUS_TYPE).addText(this.getEnchantmentBonusType());
+        element.addElement(ENCHANTMENT_BONUS_VALUE).addText(String.valueOf(this.getBonusValue()));
+        element.addElement(IMAGE_NAME).addText(this.imageName);
         return element;
     }
     /**
@@ -152,18 +152,17 @@ public class Ring extends Equipment{
     @Override
     public void decode(Element element){
         super.decode(element);
-        int temp = Integer.parseInt(element.element(Archiving.ENCHANTMENT_BONUS_VALUE).getText());
-        String tempType=element.element(Archiving.ENCHANTMENT_BONUS_TYPE).getText();
-        if(tempType.equalsIgnoreCase("ArmorClass"))
-            this.armorClassBonus=temp;
-        else if(tempType.equalsIgnoreCase("Strength"))
-                this.strengthBonus=temp;
-        else if(tempType.equalsIgnoreCase("Constitution"))
-                this.constitutionBonus=temp;
-        else if(tempType.equalsIgnoreCase("Wisdom"))
-            this.wisdomBonus=temp;
-        else
-            this.charismaBonus=temp;
-        this.imageName=element.element(Archiving.IMAGE_NAME).getText();
+        int value = Integer.parseInt(element.element(ENCHANTMENT_BONUS_VALUE).getText());
+        String type=element.element(ENCHANTMENT_BONUS_TYPE).getText();
+        setEnchantmentBonus(type,value);
+        this.imageName=element.element(IMAGE_NAME).getText();
+    }
+
+    /**
+     *The method is used to let the equipment manager know Ring is a kind of equipments
+     * The purpose is to match the ring element in xml tree to the Ring class
+     */
+    public static void registerEquipments(){
+        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Ring.class);
     }
 }

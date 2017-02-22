@@ -1,17 +1,16 @@
 package items;
 
-import Archive.IArchive;
+import Archive.Archivable;
 import characters.AbilityModifier;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
 
 /**
- * @author Tianen Chen
+ * @author Tann Chen
  * This class is superclass for every type of equipments that can be worn in characters
  */
-//这个是所有各种装备的父类，定义它的目的是为了利用java继承的机制，当外部使用装备类的方法时，jvm会根据对象的不同，自动选择不一样的重载函数
-public abstract class Equipment implements IArchive{
-     //这个枚举定义了装备的类型范围
+public abstract class Equipment implements Archivable {
+
     //To limit the Equipment type
     protected enum EquipType{Helmet, Armor, Shield, Ring, Belt, Boots, Weapon};
 
@@ -20,7 +19,6 @@ public abstract class Equipment implements IArchive{
 
     protected Equipment(){}
 
-    //装备共有的属性
     /*basic properties*/
 
     protected String equipName;
@@ -76,7 +74,7 @@ public abstract class Equipment implements IArchive{
      * the subclass of Equipment will override them
      * the methods will be used in EditItemView and Archiving.
      */
-    //这两个方法用于获取一个装备对象所加成属性的属性类型，和属性值 。 用于UI，当用户编辑装备时，用于显示装备目前加了什么值。
+    //这两个方法用于获取一个装备对象所加成属性的属性类型和属性值。 用于UI，当用户编辑装备时，用于显示装备目前加了什么值。
     public abstract String getEnchantmentBonusType();
     public abstract int getBonusValue();
 
@@ -84,11 +82,10 @@ public abstract class Equipment implements IArchive{
 
 
     /* Archive the equipments*/
-    //给装备编码用，由于只内部使用，private
-    private class Archiving{
-        public static final String CLASS = "Equipment";
-        private static final String EQUIP_NAME="Name";
-        }
+
+    public static final String ARCHIVE_CLASS = "Equipment";
+    private static final String EQUIP_NAME="Name";
+
 
     /**
      * the method is used to encode the data related to an equipment
@@ -98,8 +95,8 @@ public abstract class Equipment implements IArchive{
     @Override
     public Element encode(){
 
-        Element element = new DefaultElement(Archiving.CLASS);
-        element.addElement(Archiving.EQUIP_NAME).addText(this.equipName);
+        Element element = new DefaultElement(ARCHIVE_CLASS);
+        element.addElement(EQUIP_NAME).addText(this.equipName);
         return element;
     }
 
@@ -109,8 +106,6 @@ public abstract class Equipment implements IArchive{
      */
     //将XML对象转化成属性值
     @Override
-    public void decode(Element element){
-        this.equipName=element.element(Archiving.EQUIP_NAME).getText();
-        }
+    public void decode(Element element){this.equipName=element.element(EQUIP_NAME).getText();}
 
 }
