@@ -5,9 +5,9 @@ import org.dom4j.Element;
 
 
 /**
- * @author Tianen Chen
  * This class is one type of equipments, armor. it is the subclass of Equipment.
  * an armor only can enhance the armor class for a character
+ * @author Tann chen
  */
 public class Armor extends Equipment{
 

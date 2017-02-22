@@ -4,9 +4,9 @@ import characters.AbilityModifier;
 import org.dom4j.Element;
 
 /**
- * @author Tianen Chen
  * This class is one type of equipments, weapon. it is the subclass of Equipment.
- * a weapon only can enhance attackBonus, damageBonus
+ * a weapon only can enhance attackBonus, damageBonus.
+ * @author Tann chen
  */
 public class Weapon extends Equipment{
 

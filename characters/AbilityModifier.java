@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- *@author Tianen Chen
  * This class is abilityModifier, that can adjust the ability score of a character
  * One character instance corresponds on one abilityModifier
  */

@@ -4,9 +4,9 @@ import characters.AbilityModifier;
 import org.dom4j.Element;
 
 /**
- * @author Tianen Chen
  * This class is one type of equipments, boots. it is the subclass of Equipment.
- * an boots only can enhance armorClass, dexterity for a character who wear it
+ * an boots only can enhance armorClass, dexterity for a character who wear it.
+ * @author Tann chen
  */
 public class Boots extends Equipment{
 

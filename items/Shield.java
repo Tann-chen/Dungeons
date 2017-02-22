@@ -4,9 +4,9 @@ import characters.AbilityModifier;
 import org.dom4j.Element;
 
 /**
- * @author Tianen Chen
  * This class is one type of equipments,shield. it is the subclass of Equipment.
- * a shield only can enhance ArmorClass
+ * a shield only can enhance ArmorClass.
+ * @author Tann chen
  */
 public class Shield extends Equipment{
 

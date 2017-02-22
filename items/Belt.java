@@ -4,9 +4,9 @@ import characters.AbilityModifier;
 import org.dom4j.Element;
 
 /**
- * @author Tianen Chen
  * This class is one type of equipments, belts. it is the subclass of Equipment.
  * an belt only can enhance constitution, strength for a character who wear it
+ * @author Tann chen
  */
 public class Belt extends Equipment{
 

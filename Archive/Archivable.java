@@ -3,9 +3,8 @@ package Archive;
 import org.dom4j.Element;
 
 /**
- * @authoer
- * @version
  * This interface will be implemented for every class that needs decode and enode from/to an element in XML file
+ * @author Tann chen
  */
 public interface Archivable {
     /**
