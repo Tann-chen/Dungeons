@@ -1,6 +1,6 @@
 package items;
 
-import Archive.Archivable;
+import archive.Archivable;
 import characters.AbilityModifier;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
@@ -81,7 +81,7 @@ public abstract class Equipment implements Archivable {
 
 
 
-    /* Archive the equipments*/
+    /* archive the equipments*/
 
     public static final String ARCHIVE_CLASS = "Equipment";
     private static final String EQUIP_NAME="Name";

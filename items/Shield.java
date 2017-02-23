@@ -70,7 +70,7 @@ public class Shield extends Equipment{
 
 
 
-     /*Archive*/
+     /*archive*/
 
 
     private static final String ARCHIVE_CLASS = "Shield";

@@ -97,7 +97,7 @@ public class Helmet extends Equipment {
 
 
 
-    /*Archive*/
+    /*archive*/
 
 
     private static final String ARCHIVE_CLASS = "Helmet";

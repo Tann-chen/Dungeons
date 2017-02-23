@@ -87,7 +87,7 @@ public class Belt extends Equipment{
 
 
 
-      /*Archive*/
+      /*archive*/
 
 
     private static final String ARCHIVE_CLASS = "Belt";

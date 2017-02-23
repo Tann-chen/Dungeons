@@ -84,7 +84,7 @@ public class Boots extends Equipment{
     }
 
 
-    /*Archive*/
+    /*archive*/
 
 
     private static final String ARCHIVE_CLASS = "Boots";

@@ -1,6 +1,6 @@
 package characters;
 
-import Archive.Archivable;
+import archive.Archivable;
 import items.Equipment;
 import org.dom4j.Element;
 

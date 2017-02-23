@@ -76,7 +76,7 @@ public class Armor extends Equipment{
 
 
 
-    /*Archive*/
+    /*archive*/
 
 
     private static final String ARCHIVE_CLASS = "Armor";

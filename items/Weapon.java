@@ -83,7 +83,7 @@ public class Weapon extends Equipment{
     }
 
 
-     /*Archive*/
+     /*archive*/
 
 
     private static final String ARCHIVE_CLASS = "Weapon";

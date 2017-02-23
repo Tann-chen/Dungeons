@@ -106,7 +106,7 @@ public class AbilityModifier {
 
 
 
-    public int getStrengthBonus() {
+    /*public int getStrengthBonus() {
         return character.getStrength()+strengthBonus;
     }
 
@@ -144,5 +144,5 @@ public class AbilityModifier {
 
     public int getDamageBonus() {
         return character.getOriginalDamage()+damageBonus;
-    }
+    }*/
 }

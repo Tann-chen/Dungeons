@@ -121,7 +121,7 @@ public class Ring extends Equipment{
 
 
 
-     /*Archive*/
+     /*archive*/
     //XML为各件装备保存的属性：名称（父类那里），种类,加值的类型，加了多少，图片名字。
 
     private static final String ARCHIVE_CLASS = "Ring";
