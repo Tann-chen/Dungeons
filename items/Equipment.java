@@ -5,6 +5,7 @@ import characters.AbilityModifier;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
 
+
 /**
  * This class is superclass for every type of equipments that can be worn in characters.
  * @author Tann chen

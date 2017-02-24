@@ -8,10 +8,12 @@ import java.awt.*;
  */
 public class Screen extends JPanel{
 
+    protected Window belongWindow;
+
     public Screen(){
         this.setLayout(null);
         this.setSize(800,600);
-        this.setBackground(Color.lightGray);
+        this.setBackground(Color.WHITE);
     }
 
     /* Uniform JComponents style*/
@@ -22,7 +24,7 @@ public class Screen extends JPanel{
     }
 
     public static void uniLabelStyle(JLabel jlb){
-        jlb.setFont(new Font("Times",0,15));
+        jlb.setFont(new Font("Times",0,16));
         jlb.setForeground(Color.black);
     }
 
@@ -38,6 +40,8 @@ public class Screen extends JPanel{
         jtxtArea.setBackground(Color.white);
         jtxtArea.setForeground(Color.black);
     }
+
+    public void setBelongWindow(Window window){this.belongWindow=window;}
 
 
 }

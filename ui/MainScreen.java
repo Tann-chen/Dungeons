@@ -29,7 +29,7 @@ public class MainScreen extends Screen{
         jlbTitle.setHorizontalAlignment(SwingConstants.CENTER);
         jlbTitle.setLocation(160, 120);
         jlbTitle.setSize(500, 100);
-        super.add(jlbTitle);
+        this.add(jlbTitle);
 
         // add a start game button
         jbtStartGame = new JButton();
@@ -65,6 +65,8 @@ public class MainScreen extends Screen{
         this.add(jbtItemEditor);
 
 
+
+
         /*Action Listeners*/
 
 
@@ -90,7 +92,10 @@ public class MainScreen extends Screen{
         jbtItemEditor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                }
+                ItemEditorScreen itemEditorScreen = new ItemEditorScreen();
+                MainScreen.this.belongWindow.pushScreen(itemEditorScreen);
+                itemEditorScreen.setBelongWindow(MainScreen.this.belongWindow);
+            }
         });
 
 

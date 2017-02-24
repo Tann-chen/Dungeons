@@ -11,6 +11,7 @@ import org.dom4j.Element;
 public class Belt extends Equipment{
 
     private static final String IMAGE_PATH_NAME="belt.jpg";
+    private static final String[] allowedBonusTypes={"Constitution","Strength"};
 
     /*Constructor*/
 
@@ -130,6 +131,7 @@ public class Belt extends Equipment{
      */
     public static void registerEquipments(){
         EquipmentManager.registerEquipment(ARCHIVE_CLASS,Belt.class);
+        EquipmentManager.registeAllowedBonusType("Belt",Belt.allowedBonusTypes);
     }
 
 }

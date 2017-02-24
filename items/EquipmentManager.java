@@ -5,10 +5,9 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Map;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * This class is used to define the equipment manager.
@@ -19,6 +18,8 @@ import java.util.List;
 public class EquipmentManager {
 
     private List<Equipment>equipmentList;
+    private static Map<String,String[]> equipAllowedBonusTypeMap=new HashMap<String,String[]>();
+
 
     public EquipmentManager(){
         equipmentList=new ArrayList<Equipment>();
@@ -32,12 +33,19 @@ public class EquipmentManager {
         equipmentList.remove(equip);
     }
 
-    public List<Equipment> getEquipmentList(){
+    public List<Equipment> getEquipmentList(){return this.equipmentList;}
 
-        return this.equipmentList;
+    public static HashMap<String, Class> getRegisteredEquipments() {
+        return registeredEquipments;
     }
 
-
+    /**
+     * The method will be invoked in every subclass of the equipments to register the allowed types of bonus
+     * registered information stores in the Map
+     */
+    public static void registeAllowedBonusType(String equipName, String[] allowedBonusType){
+        equipAllowedBonusTypeMap.put(equipName,allowedBonusType);
+    }
 
     /* Loading the recorded equipments from file */
 
