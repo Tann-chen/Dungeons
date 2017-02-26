@@ -1,4 +1,4 @@
-package Archive;
+package archive;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -21,16 +21,22 @@ public class FileOperator {
      * @return root element of the file
      */
     public static Element fileReader(String filePath){
-        SAXReader reader = new SAXReader();
-        Document document= null;
-        try{
-            document=reader.read(filePath);
+        File readFile=new File(filePath);
+        if(readFile.exists()) {
+            SAXReader reader = new SAXReader();
+            Document document = null;
+            try {
+                document = reader.read(readFile);
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            }
+            Element root = document.getRootElement();
+            return root;
         }
-        catch (DocumentException e){
-            e.printStackTrace();
+        else {
+            System.out.println("You don't have any records, create one");
+            return null;
         }
-        Element root = document.getRootElement();
-        return root;
     }
 
     /**
@@ -40,6 +46,7 @@ public class FileOperator {
      */
     //TODO:dom4j是否会直接覆盖文档内容？若不会覆盖，需要先清空文档内容
     public static void fileWriter(File file,Document doc){
+
 
 
         XMLWriter writer = null;

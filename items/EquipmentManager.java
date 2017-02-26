@@ -31,7 +31,7 @@ public class EquipmentManager extends Observable{
     private  Map<String,String[]> equipAllowedBonusTypeMap;
 
     //the file name of record equipments
-    private static final String ITEMS_FILE_PATH="/items.xml";
+    private static final String ITEMS_FILE_PATH="data/items.xml";
 
     //store the equipments type ans its responding class
     private  HashMap<String,Class> registeredEquipments;
@@ -60,7 +60,7 @@ public class EquipmentManager extends Observable{
 
     /* General methods*/
 
-    public void addEquipment(Equipment equip){
+    private void addEquipment(Equipment equip){
 
         equipmentList.add(equip);
         //observer pattern
@@ -68,7 +68,7 @@ public class EquipmentManager extends Observable{
         notifyObservers(this);
     }
 
-    public void removeEquipment(Equipment equip){
+    private void removeEquipment(Equipment equip){
 
         equipmentList.remove(equip);
         //observer pattern
@@ -197,6 +197,15 @@ public class EquipmentManager extends Observable{
                 target=equip;
         }
         target.setEnchantmentBonus(newBonusType,newBonusValue);
+    }
+
+    public void deleteItem(String itemName){
+        Equipment target=null;
+        for(Equipment equip :equipmentList){
+            if(itemName.equals(equip.getEquipName()))
+                target=equip;
+        }
+        removeEquipment(target);
     }
 
 }

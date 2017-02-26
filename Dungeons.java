@@ -15,5 +15,6 @@ public class Dungeons {
         MainScreen mainScreen=new MainScreen();
         dungeonsWindow.pushScreen(mainScreen);
         mainScreen.setBelongWindow(dungeonsWindow);
+        EquipmentManager.getEquipmentManager().loadEquipmentModule();
     }
 }

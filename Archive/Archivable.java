@@ -1,4 +1,4 @@
-package Archive;
+package archive;
 
 import org.dom4j.Element;
 

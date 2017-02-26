@@ -243,16 +243,16 @@ public class ItemEditorScreen extends Screen implements Observer {
         jbtCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jtxtItemName.setEditable(true);
-                jtxtBonusValue.setEditable(true);
-                jcomBonusType.setEnabled(true);
-                jcomItemType.setEnabled(true);
+              //  itemsList.clearSelection();
+                initContentOfJComponent(jtxtItemName);
+                initContentOfJComponent(jcomItemType);
+                initContentOfJComponent(jcomBonusType);
+                initContentOfJComponent(jtxtBonusValue);
                 jbtPartialSave.setVisible(true);
                 jbtPartialSave.setText("Create");
                 partialSaveSwitch=1;
-                jcomBonusType.setSelectedIndex(-1);
-                jcomItemType.setSelectedIndex(-1);
-
+             //   jcomBonusType.setSelectedIndex(-1);
+               // jcomItemType.setSelectedIndex(-1);
             }
         });
 
@@ -278,7 +278,9 @@ public class ItemEditorScreen extends Screen implements Observer {
         jbtDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                if(selectedItemName!=null){
+                    EquipmentManager.getEquipmentManager().deleteItem(selectedItemName);
+                }
             }
         });
 
@@ -308,35 +310,29 @@ public class ItemEditorScreen extends Screen implements Observer {
             }
         });
 
-        jcomBonusType.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-
-
-            }
-        });
-
         itemsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                String temp=itemsList.getSelectedValue();
+                if(itemsList.isSelectionEmpty())
+                    return;
+
+                selectedItemName=itemsList.getSelectedValue();
                 Equipment selected =null;
                 for(Equipment equip : ItemEditorScreen.this.equipmentsList){
-                    if(temp.equals(equip.getEquipName()))
+                    if(selectedItemName.equals(equip.getEquipName()))
                         selected=equip;
                 }
                 jtxtItemName.setText(selected.getEquipName());
-                jcomItemType.setSelectedItem(selected.getEquipType());
-                jcomBonusType.setSelectedItem(selected.getBonusValue());
+                jcomItemType.setSelectedItem(String.valueOf(selected.getEquipType()));
+                jcomBonusType.setSelectedItem(selected.getEnchantmentBonusType());
                 jtxtBonusValue.setText(String.valueOf(selected.getBonusValue()));
                 jbtEdit.setEnabled(true);
-                jtxtItemName.setEnabled(false);
+                jtxtItemName.setEditable(false);
                 jcomItemType.setEnabled(false);
                 jcomBonusType.setEnabled(false);
-                jtxtBonusValue.setEnabled(false);
+                jtxtBonusValue.setEditable(false);
                 jbtPartialSave.setVisible(false);
                 jbtDelete.setEnabled(true);
-
             }
         });
 
@@ -377,7 +373,7 @@ public class ItemEditorScreen extends Screen implements Observer {
                 else if(partialSaveSwitch==2){
                     String bonusType=(String)jcomBonusType.getSelectedItem();
                     int bonusValue=Integer.parseInt(jtxtBonusValue.getText().trim());
-                    EquipmentManager.getEquipmentManager().editItemData("1",bonusType,bonusValue);//todo
+                    EquipmentManager.getEquipmentManager().editItemData(selectedItemName,bonusType,bonusValue);
                 }
 
             }
@@ -417,6 +413,20 @@ public class ItemEditorScreen extends Screen implements Observer {
             showInJList[i]=equipmentsList.get(i).getEquipName();
         }
         itemsList.setListData(showInJList);
+    }
+
+    /**
+     * The method is to enable the JComponent and clear the content of it
+     */
+    private void initContentOfJComponent(JComponent component){
+        if(component instanceof JTextField){
+            ((JTextField) component).setEditable(true);
+            ((JTextField) component).setText("");
+        }
+        else if(component instanceof JComboBox){
+            ((JComboBox) component).setSelectedIndex(-1);
+            component.setEnabled(true);
+        }
     }
 
 

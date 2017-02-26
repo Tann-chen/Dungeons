@@ -37,6 +37,7 @@ public class MainScreen extends Screen{
         jbtStartGame = new JButton();
         jbtStartGame.setText("Start Game");
         Screen.uniButtionStyle(jbtStartGame);
+        jbtStartGame.setBackground(Color.GRAY);
         jbtStartGame.setLocation(300, 300);
         jbtStartGame.setSize(200, 40);
         this.add(jbtStartGame);
@@ -97,12 +98,14 @@ public class MainScreen extends Screen{
                 ItemEditorScreen itemEditorScreen = new ItemEditorScreen();
                 MainScreen.this.belongWindow.pushScreen(itemEditorScreen);
                 itemEditorScreen.setBelongWindow(MainScreen.this.belongWindow);
-                EquipmentManager.getEquipmentManager().loadEquipmentModule();
                 EquipmentManager.getEquipmentManager().addObserver(itemEditorScreen);
             }
         });
 
 
     }
+
+
+
 
 }
