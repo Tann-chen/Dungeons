@@ -15,8 +15,7 @@ public class Shield extends Equipment{
 
 
     /*Constructors*/
-    public Shield(String equipName){
-        this.equipName=equipName;
+    public Shield(){
         this.equipType=EquipType.Shield;
         this.imageName=IMAGE_PATH_NAME;
     }
@@ -114,8 +113,8 @@ public class Shield extends Equipment{
      * The purpose is to match the shield element in xml tree to the Shield class
      */
     public static void registerEquipments(){
-        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Shield.class);
-        EquipmentManager.registeAllowedBonusType("Shield",Shield.allowedBonusTypes);
+        EquipmentManager.getEquipmentManager().registerEquipment(ARCHIVE_CLASS,Shield.class);
+        EquipmentManager.getEquipmentManager().registeAllowedBonusType("Shield",Shield.allowedBonusTypes);
     }
 
 

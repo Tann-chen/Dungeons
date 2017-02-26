@@ -16,8 +16,7 @@ public class Helmet extends Equipment {
 
     /*Constructor*/
 
-    public Helmet(String equipName){
-        this.equipName=equipName;
+    public Helmet(){
         this.equipType=EquipType.Helmet;
         this.imageName=IMAGE_PATH_NAME;
 }
@@ -141,8 +140,8 @@ public class Helmet extends Equipment {
      * The purpose is to match the helmet element in xml tree to the Helmet class
      */
     public static void registerEquipments(){
-        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Helmet.class);
-        EquipmentManager.registeAllowedBonusType("Helmet",Helmet.allowedBonusTypes);
+        EquipmentManager.getEquipmentManager().registerEquipment(ARCHIVE_CLASS,Helmet.class);
+        EquipmentManager.getEquipmentManager().registeAllowedBonusType("Helmet",Helmet.allowedBonusTypes);
     }
 
 

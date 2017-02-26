@@ -17,8 +17,7 @@ public class Ring extends Equipment{
     //这三个基本属性是从父类继承下来的，构造函数，这也是考虑到在创建一件装备时，用户在界面填写装备名称，选择装备类别。至于用户定义装备的属性加成值，
     //用于定义加成值时复杂多，所以先创建这个装备对象，在调用这个装备对象的方法就行。看下面就知道了
     /*Constructors*/
-    public Ring(String equiName){
-        this.equipName=equiName;
+    public Ring(){
         this.equipType=EquipType.Ring;
         this.imageName=IMAGE_PATH_NAME;
     }
@@ -165,7 +164,7 @@ public class Ring extends Equipment{
      * The purpose is to match the ring element in xml tree to the Ring class
      */
     public static void registerEquipments(){
-        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Ring.class);
-        EquipmentManager.registeAllowedBonusType("Ring",Ring.allowedBonusTypes);
+        EquipmentManager.getEquipmentManager().registerEquipment(ARCHIVE_CLASS,Ring.class);
+        EquipmentManager.getEquipmentManager().registeAllowedBonusType("Ring",Ring.allowedBonusTypes);
     }
 }

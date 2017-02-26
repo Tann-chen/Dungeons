@@ -16,8 +16,7 @@ public class Armor extends Equipment{
 
     /*Constructor*/
 
-    public Armor(String equiName){
-        this.equipName=equiName;
+    public Armor(){
         this.equipType=EquipType.Armor;
         this.imageName=IMAGE_PATH_NAME;
     }
@@ -121,8 +120,8 @@ public class Armor extends Equipment{
      * The purpose is to match the armor element in xml tree to the Armor class
      */
     public static void registerEquipments(){
-        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Armor.class);
-        EquipmentManager.registeAllowedBonusType("Armor",Armor.allowedBonustypes);
+        EquipmentManager.getEquipmentManager().registerEquipment(ARCHIVE_CLASS,Armor.class);
+        EquipmentManager.getEquipmentManager().registeAllowedBonusType("Armor",Armor.allowedBonustypes);
     }
 
 

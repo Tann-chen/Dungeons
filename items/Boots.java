@@ -16,8 +16,7 @@ public class Boots extends Equipment{
 
     /*Constructor*/
 
-    public Boots(String equipName) {
-        this.equipName=equipName;
+    public Boots() {
         this.equipType=EquipType.Boots;
         this.imageName=IMAGE_PATH_NAME;
     }
@@ -128,8 +127,8 @@ public class Boots extends Equipment{
      * The purpose is to match the boots element in xml tree to the Boots class
      */
     public static void registerEquipments(){
-        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Boots.class);
-        EquipmentManager.registeAllowedBonusType("Boots",Boots.allowedBonusTypes);
+        EquipmentManager.getEquipmentManager().registerEquipment(ARCHIVE_CLASS,Boots.class);
+        EquipmentManager.getEquipmentManager().registeAllowedBonusType("Boots",Boots.allowedBonusTypes);
     }
 
 }

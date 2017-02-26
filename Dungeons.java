@@ -1,3 +1,4 @@
+import items.EquipmentManager;
 import ui.ItemEditorScreen;
 import ui.MainScreen;
 import ui.Window;
@@ -7,6 +8,7 @@ import ui.Window;
  * @ author Tann chen
  */
 public class Dungeons {
+
 
     public static void main(String[] arg){
         Window dungeonsWindow = new Window();

@@ -15,8 +15,7 @@ public class Belt extends Equipment{
 
     /*Constructor*/
 
-    public Belt(String equipName){
-        this.equipName=equipName;
+    public Belt(){
         this.equipType=EquipType.Belt;
         this.imageName=IMAGE_PATH_NAME;
     }
@@ -130,8 +129,8 @@ public class Belt extends Equipment{
      * The purpose is to match the belt element in xml tree to the Belt class
      */
     public static void registerEquipments(){
-        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Belt.class);
-        EquipmentManager.registeAllowedBonusType("Belt",Belt.allowedBonusTypes);
+        EquipmentManager.getEquipmentManager().registerEquipment(ARCHIVE_CLASS,Belt.class);
+        EquipmentManager.getEquipmentManager().registeAllowedBonusType("Belt",Belt.allowedBonusTypes);
     }
 
 }

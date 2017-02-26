@@ -15,8 +15,7 @@ public class Weapon extends Equipment{
 
     /*Constructors*/
 
-    public Weapon(String equipName){
-        this.equipName=equipName;
+    public Weapon(){
         this.equipType=EquipType.Weapon;
         this.imageName=IMAGE_PATH_NAME;
     }
@@ -127,8 +126,8 @@ public class Weapon extends Equipment{
      * The purpose is to match the weapon element in xml tree to the Weapon class
      */
     public static void registerEquipments(){
-        EquipmentManager.registerEquipment(ARCHIVE_CLASS,Weapon.class);
-        EquipmentManager.registeAllowedBonusType("Weapon",Weapon.allowedBonusTypes);
+        EquipmentManager.getEquipmentManager().registerEquipment(ARCHIVE_CLASS,Weapon.class);
+        EquipmentManager.getEquipmentManager().registeAllowedBonusType("Weapon",Weapon.allowedBonusTypes);
     }
 
 

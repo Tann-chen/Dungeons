@@ -1,5 +1,7 @@
 package ui;
 
+import items.EquipmentManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -95,6 +97,8 @@ public class MainScreen extends Screen{
                 ItemEditorScreen itemEditorScreen = new ItemEditorScreen();
                 MainScreen.this.belongWindow.pushScreen(itemEditorScreen);
                 itemEditorScreen.setBelongWindow(MainScreen.this.belongWindow);
+                EquipmentManager.getEquipmentManager().loadEquipmentModule();
+                EquipmentManager.getEquipmentManager().addObserver(itemEditorScreen);
             }
         });
 

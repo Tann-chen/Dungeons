@@ -1,23 +1,31 @@
 package ui;
 
 import items.Equipment;
-
+import items.EquipmentManager;
+import java.util.ArrayList;
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.*;
 import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.util.Observer;
 
 /**
  * The class is to define the screen in which player can create and edit the items
+ * The class implements Observer in Observer pattern to monitor the EquipmentManager
  * @author  Tann chen
  */
-public class ItemEditorScreen extends Screen {
+public class ItemEditorScreen extends Screen implements Observer {
 
-    private JTextField jtextMessage;
-    private JList<Equipment> itemsList;
+    /*JComponents*/
+
+    private JTextField jtxtMessage;
+    private JList<String> itemsList;
     private JLabel icon;
 
     private JLabel jlbItemName;
@@ -31,41 +39,58 @@ public class ItemEditorScreen extends Screen {
 
     private JLabel jlbBonusValue;
     private JTextField jtxtBonusValue;
+    private JButton jbtPartialSave;
 
     private JButton jbtExit;
     private JButton jbtEdit;
     private JButton jbtCreate;
     private JButton jbtSave;
+    private JButton jbtDelete;
+
 
     /*Other data fields*/
 
+    //Elements of jcomItemType
     private String[] itemType={"Armor","Belt","Boots","Helmet","Ring","Shield","Weapon"};
+    //stores the allowed bonus types for each kind of items
+    private Map<String,String[]> allowedEquipBonusTypesMap;
+    // Partial save button switch
+    private int partialSaveSwitch;
+    //The elements of equipments in JList
+    private ArrayList<Equipment> equipmentsList;
+    //the selected item in JList
+    private String selectedItemName;
 
 
 
     public ItemEditorScreen(){
+
         //message
-        jtextMessage=new JTextField();
-        jtextMessage.setEditable(false);
-        jtextMessage.setText(" Message : ");
-        jtextMessage.setSize(800,40);
-        jtextMessage.setLocation(0,0);
-        jtextMessage.setBackground(Color.white);
-        this.add(jtextMessage);
+        jtxtMessage=new JTextField();
+        jtxtMessage.setEditable(false);
+        jtxtMessage.setText(" Message : ");
+        jtxtMessage.setSize(800,40);
+        jtxtMessage.setLocation(0,0);
+        jtxtMessage.setBackground(Color.white);
+        this.add(jtxtMessage);
 
 
-
-        //list
-        itemsList=new JList<Equipment>();
-        itemsList.setSize(200,490);
-        itemsList.setLocation(0,40);
+        //JList
+        itemsList=new JList<String>();//TODO:滑动后才能显示内容
         itemsList.setBackground(Color.white);
-        this.add(itemsList);
-
+        itemsList.setForeground(Color.BLACK);
+        itemsList.setSelectionForeground(Color.blue);
+        itemsList.setSelectionBackground(Color.gray);
+        JScrollPane scrollList =new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollList.getViewport().setView(itemsList);
+        scrollList.setSize(195,489);
+        scrollList.setLocation(3,40);
+        this.add(scrollList);
 
 
         //center view
         JPanel centerView=new JPanel();
+        centerView.setLayout(null);
         centerView.setSize(600,490);
         centerView.setLocation(200,40);
         centerView.setBackground(Color.WHITE);
@@ -92,7 +117,7 @@ public class ItemEditorScreen extends Screen {
         jtxtItemName = new JTextField();
         jtxtItemName.setEditable(false);
         jtxtItemName.setSize(150,36);
-        jtxtItemName.setLocation(280,220);
+         jtxtItemName.setLocation(280,220);
         centerView.add(jtxtItemName);
 
         //add text type label
@@ -146,12 +171,20 @@ public class ItemEditorScreen extends Screen {
         jtxtBonusValue.setLocation(280,370);
         centerView.add(jtxtBonusValue);
 
+        // add a button
+        jbtPartialSave = new JButton();
+        jbtPartialSave.setVisible(false);
+        jbtPartialSave.setSize(110,36);
+        jbtPartialSave.setLocation(240,440);
+        centerView.add(jbtPartialSave);
+
         this.add(centerView);
 
 
 
         //footer
         JPanel footer = new JPanel();
+        footer.setLayout(null);
         footer.setSize(800,70);
         footer.setLocation(0,530);
         footer.setBackground(Color.white);
@@ -159,33 +192,49 @@ public class ItemEditorScreen extends Screen {
         footer.setBorder(footerBorder);
         //button1
         jbtCreate =new JButton();
-        jbtCreate.setText("CREATE");
+        jbtCreate.setText("Create");
         Screen.uniButtionStyle(jbtCreate);
-        jbtCreate.setSize(150,36);
-        jbtCreate.setLocation(40,7);
+        jbtCreate.setSize(130,36);
+        jbtCreate.setLocation(25,7);
         footer.add(jbtCreate);
         //button2
         jbtEdit=new JButton();
-        jbtEdit.setText("EDIT");
+        jbtEdit.setText("Edit");
         Screen.uniButtionStyle(jbtEdit);
-        jbtEdit.setSize(150,36);
-        jbtEdit.setLocation(230,7);
+        jbtEdit.setSize(130,36);
+        jbtEdit.setLocation(180,7);
+        jbtEdit.setEnabled(false);
         footer.add(jbtEdit);
         //button3
-        jbtSave=new JButton();
-        jbtSave.setText("SAVE");
-        Screen.uniButtionStyle(jbtSave);
-        jbtSave.setSize(150,36);
-        jbtSave.setLocation(420,7);
-        footer.add(jbtSave);
+        jbtDelete=new JButton();
+        jbtDelete.setText("Delete");
+        Screen.uniButtionStyle(jbtDelete);
+        jbtDelete.setSize(130,36);
+        jbtDelete.setLocation(335,7);
+        footer.add(jbtDelete);
+
         //button4
+        jbtSave=new JButton();
+        jbtSave.setText("Save");
+        Screen.uniButtionStyle(jbtSave);
+        jbtSave.setSize(130,36);
+        jbtSave.setLocation(490,7);
+        jbtDelete.setEnabled(false);
+        footer.add(jbtSave);
+        //button5
         jbtExit=new JButton();
-        jbtExit.setText("EXIT");
+        jbtExit.setText("Exit");
         Screen.uniButtionStyle(jbtExit);
-        jbtExit.setSize(150,36);
-        jbtExit.setLocation(610,7);
+        jbtExit.setSize(130,36);
+        jbtExit.setLocation(645,7);
         footer.add(jbtExit);
         this.add(footer);
+
+        /* initialized works*/
+        showTheList();
+        this.allowedEquipBonusTypesMap=EquipmentManager.getEquipmentManager().getEquipAllowedBonusTypeMap();
+        this.partialSaveSwitch=0;
+
 
 
 
@@ -194,17 +243,27 @@ public class ItemEditorScreen extends Screen {
         jbtCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                jtxtItemName.setEditable(true);
+                jtxtBonusValue.setEditable(true);
+                jcomBonusType.setEnabled(true);
+                jcomItemType.setEnabled(true);
+                jbtPartialSave.setVisible(true);
+                jbtPartialSave.setText("Create");
+                partialSaveSwitch=1;
+                jcomBonusType.setSelectedIndex(-1);
+                jcomItemType.setSelectedIndex(-1);
+
             }
         });
 
         jbtEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jtxtItemName.setEditable(true);
                 jtxtBonusValue.setEditable(true);
                 jcomBonusType.setEnabled(true);
-                jtextMessage.setText(" Message :  The type of items is not allowed to edit");
-
+                partialSaveSwitch=2;
+                jbtPartialSave.setVisible(true);
+                jbtPartialSave.setText("Modify");
 
             }
         });
@@ -216,19 +275,36 @@ public class ItemEditorScreen extends Screen {
             }
         });
 
+        jbtDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+            }
+        });
+
         jbtSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                EquipmentManager.getEquipmentManager().updateEquipmentRecords();
             }
         });
 
         jcomItemType.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                int index=jcomItemType.getSelectedIndex();
+                jcomBonusType.removeAllItems();
 
-
+               String selectedType=(String)jcomItemType.getSelectedItem();
+                if(!ItemEditorScreen.this.allowedEquipBonusTypesMap.containsKey(selectedType)){
+                    System.out.println("select Item Type");
+                }
+                else{
+                    String[] allowedTypes = allowedEquipBonusTypesMap.get(selectedType);
+                    for(String s :allowedTypes){
+                        jcomBonusType.addItem(s);
+                    }
+                }
+                jcomBonusType.setSelectedIndex(-1);
             }
         });
 
@@ -236,9 +312,112 @@ public class ItemEditorScreen extends Screen {
             @Override
             public void itemStateChanged(ItemEvent e) {
 
+
+            }
+        });
+
+        itemsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                String temp=itemsList.getSelectedValue();
+                Equipment selected =null;
+                for(Equipment equip : ItemEditorScreen.this.equipmentsList){
+                    if(temp.equals(equip.getEquipName()))
+                        selected=equip;
+                }
+                jtxtItemName.setText(selected.getEquipName());
+                jcomItemType.setSelectedItem(selected.getEquipType());
+                jcomBonusType.setSelectedItem(selected.getBonusValue());
+                jtxtBonusValue.setText(String.valueOf(selected.getBonusValue()));
+                jbtEdit.setEnabled(true);
+                jtxtItemName.setEnabled(false);
+                jcomItemType.setEnabled(false);
+                jcomBonusType.setEnabled(false);
+                jtxtBonusValue.setEnabled(false);
+                jbtPartialSave.setVisible(false);
+                jbtDelete.setEnabled(true);
+
+            }
+        });
+
+        jbtPartialSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(jtxtItemName.getText().trim().equals("")){
+                    warningMessage("The item name can not be empty!");
+                    return;
+                }
+                if(jcomItemType.getSelectedIndex()==-1){
+                    warningMessage("Please select the type of the item !");
+                    return;
+                }
+                if(jcomBonusType.getSelectedIndex()==-1){
+                    warningMessage("Please select the bonus type of the item");
+                    return;
+                }
+                if(jtxtBonusValue.getText().trim().equals("")){
+                    warningMessage("Please assign the bonus value of the item!");
+                    return;
+                }
+                if(Integer.parseInt(jtxtBonusValue.getText().trim())<0||Integer.parseInt(jtxtBonusValue.getText().trim())>5){
+                    warningMessage("The bonus value of item mush range from 0 to 5 !");
+                    jtxtBonusValue.setText("");
+                    return;
+                }
+
+                if(partialSaveSwitch==1){
+                    String itemName=jtxtItemName.getText().trim();
+                    String itemType=(String)jcomItemType.getSelectedItem();
+                    String bonusType=(String)jcomBonusType.getSelectedItem();
+                    int bonusValue=Integer.parseInt(jtxtBonusValue.getText().trim());
+                    EquipmentManager.getEquipmentManager().createItemInstance(itemName,itemType,bonusType,bonusValue);
+                    promptMessage("The item [" +jtxtItemName.getText().trim()+"] is created successfully! " +
+                                    "Remember to save after all your editing ! " );
+                }
+                else if(partialSaveSwitch==2){
+                    String bonusType=(String)jcomBonusType.getSelectedItem();
+                    int bonusValue=Integer.parseInt(jtxtBonusValue.getText().trim());
+                    EquipmentManager.getEquipmentManager().editItemData("1",bonusType,bonusValue);//todo
+                }
+
             }
         });
 
     }
+
+
+    private void promptMessage(String message){
+        jtxtMessage.setText(" Message : "+message);
+        jtxtMessage.setForeground(Color.GREEN);
+    }
+
+    private void warningMessage(String message){
+        jtxtMessage.setText(" Message : "+message);
+        jtxtMessage.setForeground(Color.RED);
+    }
+
+    private void showTheList(){
+        this.equipmentsList=EquipmentManager.getEquipmentManager().getEquipmentList();
+        int num=this.equipmentsList.size();
+        String[] showInJList=new String[num];
+        for(int i=0; i<num;i++){
+            showInJList[i]=equipmentsList.get(i).getEquipName();
+        }
+        itemsList.setListData(showInJList);
+    }
+
+    /**
+     * The method override update method in Observer to update the content
+     */
+    @Override public void update(Observable obs,Object o){
+        this.equipmentsList=((EquipmentManager)obs).getEquipmentList();
+        int num=this.equipmentsList.size();
+        String[] showInJList=new String[num];
+        for(int i=0; i<num;i++){
+            showInJList[i]=equipmentsList.get(i).getEquipName();
+        }
+        itemsList.setListData(showInJList);
+    }
+
 
 }
