@@ -1,9 +1,10 @@
 package characters;
 
+
 import items.Equipment;
 
-import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * This class is abilityModifier, that can adjust the ability score of a character
@@ -11,80 +12,56 @@ import java.util.List;
  */
 public class AbilityModifier {
 
-    private Character character; // the modifier object belongs to who
+    /*Ability modifier*/
 
-    /*Ability score*/
-
-    private int strengthBonus=0;
-    private int dexterityBonus=0;
-    private int constitutionBonus=0;
-    private int intelligenceBonus=0;
-    private int wisdomBonus=0;
-    private int charismaBonus=0;
+    private int strengthModifier;
+    private int dexterityModifier;
+    private int constitutionModifier;
+    private int intelligenceModifier;
+    private int wisdomModifier;
+    private int charismaModifier;
 
     /*other values*/
-
-    private int hitPoint=0;
-    private int armorClass=0;
-    private int attackBonus=0;
-    private int damageBonus=0;
-
-    /*Constructors*/
-
-    public AbilityModifier(Character cha){
-        character=cha;
-        equipmentModifier();
-    }
-
-    //TODO:随着等级升高的modifers调整
-    //TODO:属性值直接互相影响的modifiers调整
+    private int armorClass;
+    private int attackBonus;
+    private int damageBonus;
 
 
-
-    /*the modification of abilities caused by worn equipments*/
-
-
-
-    public void equipmentModifier(){
-
-        List<Equipment> equipList=character.getWornEquipments();
-        for (Equipment equip : equipList){
-            equip.addEnchantBonusToModifier(this);
-        }
+    /**
+     * initialize the values of ability modifier
+     */
+    public void setValueOfModifier(Character character){
+        Collection<Equipment> wornequips=character.getWornEquipments().values();
+        for(Equipment e:wornequips)
+            e.addEnchantBonusToModifier(this);
     }
 
 
-
-    /*Main function - adjust the abilities*/
-
+    /*Main function - adjust the value in modifier*/
 
 
     public void adjustStrength(int strengthBonus) {
-        this.strengthBonus += strengthBonus;
+        this.strengthModifier += strengthBonus;
     }
 
     public void adjustDexterity(int dexterityBonus) {
-        this.dexterityBonus += dexterityBonus;
+        this.dexterityModifier += dexterityBonus;
     }
 
     public void adjustConstitution(int constitutionBonus) {
-        this.constitutionBonus += constitutionBonus;
+        this.constitutionModifier += constitutionBonus;
     }
 
     public void adjustIntelligence(int intelligenceBonus) {
-        this.intelligenceBonus += intelligenceBonus;
+        this.intelligenceModifier += intelligenceBonus;
     }
 
     public void adjustWisdom(int wisdomBonus) {
-        this.wisdomBonus += wisdomBonus;
+        this.wisdomModifier += wisdomBonus;
     }
 
     public void adjustCharisma(int charismaBonus) {
-        this.charismaBonus += charismaBonus;
-    }
-
-    public void adjustHitPoint(int hitPointBonus) {
-        this.hitPoint += hitPointBonus;
+        this.charismaModifier += charismaBonus;
     }
 
     public void adjustArmorClass(int armorClassBonus) {
@@ -99,50 +76,28 @@ public class AbilityModifier {
         this.damageBonus += damageBonus;
     }
 
-
-
-
-    /*get the modified ability scores*/
-
-
-
-    /*public int getStrengthBonus() {
-        return character.getStrength()+strengthBonus;
+    /**
+     * Getter
+     */
+    public int getter(String type){
+        if(type.equals(strengthModifier))
+            return strengthModifier;
+        else if(type.equals(dexterityModifier))
+            return dexterityModifier;
+        else if(type.equals(constitutionModifier))
+            return constitutionModifier;
+        else if(type.equals(intelligenceModifier))
+            return intelligenceModifier;
+        else if(type.equals(wisdomModifier))
+            return wisdomModifier;
+        else if(type.equals(charismaModifier))
+            return charismaModifier;
+        else if(type.equals(armorClass))
+            return armorClass;
+        else if(type.equals(attackBonus))
+            return attackBonus;
+        else
+            return damageBonus;
     }
 
-    public int getDexterityBonus() {
-        return character.getDexterity()+dexterityBonus;
-    }
-
-    public int getConstitutionBonus() {
-        return character.getConstitution()+constitutionBonus;
-    }
-
-    public int getIntelligenceBonus() {
-        return character.getIntelligence()+intelligenceBonus;
-    }
-
-    public int getWisdomBonus() {
-        return character.getWisdom()+wisdomBonus;
-    }
-
-    public int getCharismaBonus() {
-        return character.getCharisma()+charismaBonus;
-    }
-
-    public int getHitPoint() {
-        return character.getHitPoint()+hitPoint;
-    }
-
-    public int getArmorClass() {
-        return character.getArmorClass()+armorClass;
-    }
-
-    public int getAttackBonus() {
-        return character.getOriginalAttack()+attackBonus;
-    }
-
-    public int getDamageBonus() {
-        return character.getOriginalDamage()+damageBonus;
-    }*/
 }

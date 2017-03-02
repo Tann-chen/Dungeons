@@ -1,14 +1,14 @@
+import characters.CharacterManager;
 import items.EquipmentManager;
-import ui.ItemEditorScreen;
 import ui.MainScreen;
 import ui.Window;
 
 /**
  * This class is the entry of the game
+ * In the beginning of game, load the module of equipments
  * @ author Tann chen
  */
 public class Dungeons {
-
 
     public static void main(String[] arg){
         Window dungeonsWindow = new Window();
@@ -16,5 +16,6 @@ public class Dungeons {
         dungeonsWindow.pushScreen(mainScreen);
         mainScreen.setBelongWindow(dungeonsWindow);
         EquipmentManager.getEquipmentManager().loadEquipmentModule();
+        CharacterManager.getCharacterManager().loadCharacterModule();
     }
 }

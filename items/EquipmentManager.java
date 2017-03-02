@@ -2,6 +2,7 @@ package items;
 
 import java.util.ArrayList;
 import archive.FileOperator;
+import characters.Character;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -150,9 +151,6 @@ public class EquipmentManager extends Observable{
     }
 
 
-
-    /* Update the equipments records */
-
     /**
      * The method will be used to update the equipments records after player confirms the modification or creation of equipments
      */
@@ -170,7 +168,6 @@ public class EquipmentManager extends Observable{
     }
 
 
-    /* Create a Equipments from UI*/
     /**
      * The method will be invoked in Ui to create an equipment object
      */
@@ -198,7 +195,9 @@ public class EquipmentManager extends Observable{
         }
         target.setEnchantmentBonus(newBonusType,newBonusValue);
     }
-
+    /**
+     * The method is used to delete a equipment in Ui
+     */
     public void deleteItem(String itemName){
         Equipment target=null;
         for(Equipment equip :equipmentList){
@@ -206,6 +205,33 @@ public class EquipmentManager extends Observable{
                 target=equip;
         }
         removeEquipment(target);
+    }
+
+    /**
+     * The method is to encode the equipments that are worn in character
+     * @return the ArrayList of equipments presenting the worn equipments of character
+     */
+    public ArrayList<Equipment> encodeWornEquipments(Element equipsElement){
+        ArrayList<Equipment> wornEquips =new ArrayList<Equipment>();
+
+        if(equipsElement.getName().equals(Character.WORN_EQUIPMENTS)) {
+            Iterator i = equipsElement.elementIterator();
+            while (i.hasNext()) {
+                Element element = (Element) i.next();
+                Class classObj = registeredEquipments.get(element.getName());
+                Equipment equipment = null;
+                try {
+                    equipment = (Equipment) classObj.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (equipment != null)
+                    equipment.decode(element);
+                wornEquips.add(equipment);
+            }
+        }
+
+        return wornEquips;
     }
 
 }

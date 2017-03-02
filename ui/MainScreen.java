@@ -1,5 +1,6 @@
 package ui;
 
+import characters.CharacterManager;
 import items.EquipmentManager;
 
 import javax.swing.*;
@@ -36,8 +37,6 @@ public class MainScreen extends Screen{
         // add a start game button
         jbtStartGame = new JButton();
         jbtStartGame.setText("Start Game");
-        Screen.uniButtionStyle(jbtStartGame);
-        jbtStartGame.setBackground(Color.GRAY);
         jbtStartGame.setLocation(300, 300);
         jbtStartGame.setSize(200, 40);
         this.add(jbtStartGame);
@@ -46,7 +45,6 @@ public class MainScreen extends Screen{
         // add a map editor button
         jbtMapEditor = new JButton();
         jbtMapEditor.setText("Edit Maps");
-        Screen.uniButtionStyle(jbtMapEditor);
         jbtMapEditor.setLocation(300, 350);
         jbtMapEditor.setSize(200, 40);
         this.add(jbtMapEditor);
@@ -54,7 +52,6 @@ public class MainScreen extends Screen{
         // add a character editor button
         jbtCharacterEditor = new JButton();
         jbtCharacterEditor.setText("Edit Characters");
-        Screen.uniButtionStyle(jbtCharacterEditor);
         jbtCharacterEditor.setLocation(300, 400);
         jbtCharacterEditor.setSize(200, 40);
         this.add(jbtCharacterEditor);
@@ -62,7 +59,6 @@ public class MainScreen extends Screen{
         // add an item editor button
         jbtItemEditor = new JButton();
         jbtItemEditor.setText("Edit Items");
-        Screen.uniButtionStyle(jbtItemEditor);
         jbtItemEditor.setLocation(300, 450);
         jbtItemEditor.setSize(200, 40);
         this.add(jbtItemEditor);
@@ -88,7 +84,10 @@ public class MainScreen extends Screen{
         jbtCharacterEditor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                CharacterEditorScreen characterEditorScreen =new CharacterEditorScreen();
+                MainScreen.this.belongWindow.pushScreen(characterEditorScreen);
+                characterEditorScreen.setBelongWindow(MainScreen.this.belongWindow);
+                CharacterManager.getCharacterManager().addObserver(characterEditorScreen);
             }
         });
 

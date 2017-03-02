@@ -45,14 +45,6 @@ public abstract class Equipment implements Archivable {
     }
 
 
-
-
-    //装备具有的属性加成效果
-    /*Enchantment bonus of the equipment*/
-
-
-    //这个抽象方法 是 用在将装备的属性加成效果加到人物的abilitymodifier上，参数（modifier对象）
-    //各类型装备会具体实现这个方法－－利用JVM去判断哪时候调用哪个
     /**
      *This abstract method is used to add the enchantment bonus of this equipment to the modifier of the character
      *the subclass of Equipment will override the method to implement the specific function
@@ -60,9 +52,6 @@ public abstract class Equipment implements Archivable {
     public abstract void  addEnchantBonusToModifier(AbilityModifier am);
 
 
-    //这个方法是用于设置装备的属性加成效果
-    //因为每件装备只能加一样属性值，所以参数（加的属性值类型，加的值）
-    //这个方法会在UI中使用到，当用户选择加什么值和定义加多少时。
     /**
      * This abstract method is used to set the enchantment bonus of an equipment
      * The subclass of Equipment will override the method to implement the specific function

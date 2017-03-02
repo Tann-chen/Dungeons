@@ -63,12 +63,13 @@ public class ItemEditorScreen extends Screen implements Observer {
 
 
 
-    public ItemEditorScreen(){
 
+    public ItemEditorScreen(){
         //message
         jtxtMessage=new JTextField();
         jtxtMessage.setEditable(false);
         jtxtMessage.setText(" Message : ");
+        jtxtMessage.setForeground(Color.green);
         jtxtMessage.setSize(800,40);
         jtxtMessage.setLocation(0,0);
         jtxtMessage.setBackground(Color.white);
@@ -77,10 +78,9 @@ public class ItemEditorScreen extends Screen implements Observer {
 
         //JList
         itemsList=new JList<String>();//TODO:滑动后才能显示内容
-        itemsList.setBackground(Color.white);
-        itemsList.setForeground(Color.BLACK);
-        itemsList.setSelectionForeground(Color.blue);
-        itemsList.setSelectionBackground(Color.gray);
+        itemsList.setBackground(Color.WHITE);
+        itemsList.setSelectionForeground(Color.RED);
+        itemsList.setSelectionBackground(Color.CYAN);
         JScrollPane scrollList =new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollList.getViewport().setView(itemsList);
         scrollList.setSize(195,489);
@@ -96,7 +96,6 @@ public class ItemEditorScreen extends Screen implements Observer {
         centerView.setBackground(Color.WHITE);
         Border centerViewBorder= BorderFactory.createEtchedBorder();
         centerView.setBorder(centerViewBorder);
-
         //add a JLabel to show icon
         icon =new JLabel();
         icon.setText("icon");
@@ -104,7 +103,6 @@ public class ItemEditorScreen extends Screen implements Observer {
         icon.setLocation(260,100);
         icon.setBackground(Color.CYAN);
         centerView.add(icon);
-
         //add item name label
         jlbItemName = new JLabel();
         Screen.uniLabelStyle(jlbItemName);
@@ -112,14 +110,12 @@ public class ItemEditorScreen extends Screen implements Observer {
         jlbItemName.setSize(100,40);
         jlbItemName.setLocation(180,220);
         centerView.add(jlbItemName);
-
         //add text field of item name
         jtxtItemName = new JTextField();
         jtxtItemName.setEditable(false);
         jtxtItemName.setSize(150,36);
          jtxtItemName.setLocation(280,220);
         centerView.add(jtxtItemName);
-
         //add text type label
         jlbItemType= new JLabel();
         Screen.uniLabelStyle(jlbItemType);
@@ -127,7 +123,6 @@ public class ItemEditorScreen extends Screen implements Observer {
         jlbItemType.setSize(100,40);
         jlbItemType.setLocation(180,270);
         centerView.add(jlbItemType);
-
         //add text of item type
         jcomItemType=new JComboBox<String>(this.itemType);
         jcomItemType.setEditable(false);
@@ -137,7 +132,6 @@ public class ItemEditorScreen extends Screen implements Observer {
         centerView.add(jcomItemType);
         jcomItemType.setBounds(280,270,150,40);
         jcomItemType.doLayout();    // force show the layout
-
         // add label of item bonus type
         jlbBonusType = new JLabel();
         Screen.uniLabelStyle(jlbBonusType);
@@ -145,7 +139,6 @@ public class ItemEditorScreen extends Screen implements Observer {
         jlbBonusType.setSize(100,40);
         jlbBonusType.setLocation(180,320);
         centerView.add(jlbBonusType);
-
         //add test of bonus type
         jcomBonusType =new JComboBox<String>();
         jcomBonusType.setEditable(false);
@@ -155,7 +148,6 @@ public class ItemEditorScreen extends Screen implements Observer {
         centerView.add(jcomBonusType);
         jcomBonusType.setBounds(280,320,150,40);
         jcomBonusType.doLayout();   // force  show the layout
-
         //add label of bonus value
         jlbBonusValue = new JLabel();
         Screen.uniLabelStyle(jlbBonusValue);
@@ -163,14 +155,12 @@ public class ItemEditorScreen extends Screen implements Observer {
         jlbBonusValue.setSize(100,40);
         jlbBonusValue.setLocation(180,370);
         centerView.add(jlbBonusValue);
-
         //add text field of bonus type
         jtxtBonusValue = new JTextField();
         jtxtBonusValue.setEditable(false);
         jtxtBonusValue.setSize(150,36);
         jtxtBonusValue.setLocation(280,370);
         centerView.add(jtxtBonusValue);
-
         // add a button
         jbtPartialSave = new JButton();
         jbtPartialSave.setVisible(false);
@@ -179,7 +169,6 @@ public class ItemEditorScreen extends Screen implements Observer {
         centerView.add(jbtPartialSave);
 
         this.add(centerView);
-
 
 
         //footer
@@ -212,7 +201,6 @@ public class ItemEditorScreen extends Screen implements Observer {
         jbtDelete.setSize(130,36);
         jbtDelete.setLocation(335,7);
         footer.add(jbtDelete);
-
         //button4
         jbtSave=new JButton();
         jbtSave.setText("Save");
@@ -229,6 +217,7 @@ public class ItemEditorScreen extends Screen implements Observer {
         jbtExit.setLocation(645,7);
         footer.add(jbtExit);
         this.add(footer);
+
 
         /* initialized works*/
         showTheList();
@@ -251,8 +240,7 @@ public class ItemEditorScreen extends Screen implements Observer {
                 jbtPartialSave.setVisible(true);
                 jbtPartialSave.setText("Create");
                 partialSaveSwitch=1;
-             //   jcomBonusType.setSelectedIndex(-1);
-               // jcomItemType.setSelectedIndex(-1);
+
             }
         });
 
@@ -298,7 +286,7 @@ public class ItemEditorScreen extends Screen implements Observer {
 
                String selectedType=(String)jcomItemType.getSelectedItem();
                 if(!ItemEditorScreen.this.allowedEquipBonusTypesMap.containsKey(selectedType)){
-                    System.out.println("select Item Type");
+                    System.out.println("please select Item Type");
                 }
                 else{
                     String[] allowedTypes = allowedEquipBonusTypesMap.get(selectedType);

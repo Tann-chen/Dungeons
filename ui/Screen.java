@@ -21,12 +21,12 @@ public class Screen extends JPanel{
     public static void uniButtionStyle(JButton jbt){
 
         jbt.setFont(new Font("Times",0,15));
-        jbt.setBackground(Color.WHITE);
+        jbt.setForeground(Color.BLACK);
     }
 
     public static void uniLabelStyle(JLabel jlb){
         jlb.setFont(new Font("Times",0,16));
-        jlb.setForeground(Color.black);
+        jlb.setForeground(Color.DARK_GRAY);
     }
 
     public static void uniTextField(JTextField jtxt){

@@ -2,99 +2,236 @@ package characters;
 
 import archive.Archivable;
 import items.Equipment;
+import items.EquipmentManager;
 import org.dom4j.Element;
-
+import org.dom4j.tree.DefaultElement;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * character architectural structure
+ * The class is to build the character, including fighter and enemy
  */
 public class Character implements Archivable{
 
-     /*Ability score*/
-    private int strength=0;
-    private int dexterity=0;
-    private int constitution=0;
-    private int intelligence=0;
-    private int wisdom=0;
-    private int charisma=0;
+    private String name;
+    private int level;
 
-    /*other values*/
-    private int level=0;
-    private int hitPoint=0;
-    private int armorClass=0;
-    private int originalAttack=0;
-    private int originalDamage=0;
+    /*Ability score*/
+    private int strength;
+    private int dexterity;
+    private int constitution;
+    private int intelligence;
+    private int wisdom;
+    private int charisma;
 
-    private Character(){
-        modifier = new AbilityModifier(this);
-        wornEquipments=new ArrayList<Equipment>();
-        //TODO:这里面需要用到initAbilityScore()
+    /*Other abilities*/
+    private int hitPoint;
+    private int armorClass;
+    private int attackBonus;
+    private int damageBonus;
+    private int multipleAttacks;
+    private Map<String,Equipment>wornEquipments;
+
+
+    public Character(String iname){
+        this();
+        name=iname;
     }
-    /*这个方法用于设定人物的属性值，但是需要做安全性判断，当输入的属性值类型不存在时需要System.out.println报错*/
-    public void setAbilityScore(String abilityType, int value){
-        //TODO
+
+    public Character(){
+        level=1;
+        multipleAttacks=1;
+        wornEquipments=new HashMap<String,Equipment>();
+        initAbilityScore();
+        modifier=new AbilityModifier();
     }
 
-    /*这个函数是用在初始化人物的时候用的，按照要求在人物初始化的时候，人物的6项ability score 是随机决定的，但总值是固定的18*/
+    /**
+     *The method is used to initialize the ability scores of fighter
+     */
     public void initAbilityScore(){
-        //TODO：这里面需要用到setAbilityScore()
+        strength=dice(4,6);
+        dexterity=dice(4,6);
+        constitution=dice(4,6);
+        intelligence=dice(4,6);
+        wisdom=dice(4,6);
+        charisma=dice(4,6);
+    }
+
+    /**
+     * The method is used to set the ability score of the fighter
+     * */
+    public void setDataOfCha(String dataType, int value){
+        if(dataType.equals("Level"))
+            level=value;
+        else if(dataType.equals("Strength"))
+            strength=value;
+        else if(dataType.equals("Dexterity"))
+            dexterity=value;
+        else if(dataType.equals("Constitution"))
+            constitution=value;
+        else if(dataType.equals("Intelligence"))
+            intelligence=value;
+        else if(dataType.equals("Wisdom"))
+            wisdom=value;
+        else
+            charisma=value;
+    }
+    /**
+     * The method is used to update the other abilities of the fighter
+     * it will be used each time the equipment change or uplevel
+     */
+    public void updateOtherAbilities(){
+        armorClass=modifier.getter("dexterityModifier")+modifier.getter("armorClass")+10;
+        attackBonus=this.level+modifier.getter("strengthModifier")+modifier.getter("attackBonus");
+        damageBonus=modifier.getter("dexterityModifier")+modifier.getter("damageBonus")+10;
+        hitPoint=dice(1,10)+modifier.getter("constitutionModifier");
     }
 
     /*AbilityModifier*/
-    /**
-     * 一个人物对象只对应一个能力修改器
-     *任何能力的修改（穿装备、升级等等），全在能力修改器上修改，以防重复叠加了（人物修炼和附加的能力）
-     * 例外：在人物编辑页面中，对人物能力的修改，在此页面中修改（人物原始能力）
-     */
+
     private AbilityModifier modifier;
 
-    //TODO:这一块需要需求分析，如果兴趣去边看D20边写就写着，不然就先放着把
+    public String getName() { return name; }
+
+    public Map<String, Equipment> getWornEquipments() {
+        return wornEquipments;
+    }
+
+    public int getData(String dataType){
+        if(dataType.equals("Strength"))
+            return strength;
+        else if(dataType.equals("Dexterity"))
+            return dexterity;
+        else if(dataType.equals("Constitution"))
+            return constitution;
+        else if(dataType.equals("Intelligence"))
+            return intelligence;
+        else if(dataType.equals("Wisdom"))
+            return wisdom;
+        else if(dataType.equals("Level"))
+            return level;
+        else
+            return charisma;
+    }
+
 
 
     /* Worn Equipments */
 
-    private List<Equipment> wornEquipments;
+    public static final String WORN_EQUIPMENTS = "WornEquipments";
 
-    public List<Equipment> getWornEquipments() {
-        return wornEquipments;
+    /**
+     * The method is used to wear a equipment in the character
+     * if the character has already wear the type of item, the old one will be return
+     */
+    public Equipment wearEquipment(Equipment equip){
+        String equipType=String.valueOf(equip.getEquipType());
+        Equipment oldEquip=wornEquipments.put(equipType,equip);//oldEquip is the type of equips that has already worn
+        return oldEquip;
     }
 
-    public void wearingEquipment(Equipment equip){
-        //TODO:这是一个穿装备的动作
-        //TODO:一个人物身上只能穿一样同种类的装备，例如只能拿一把武器。当拿另一把武器时，要放弃本来拿的武器
-        //TODO:List<Equipement>去保存身上的武器可能不是最适宜，因为不好去确定身上是否有什么装备－> map()或者set()我仍在考虑中
-    }
 
-
-
-    /*因为在.xml存档中，人物身上穿的装备要随人物的信息一起存进去所以，穿在身上的装备
-    * 存档为.xml数的一个element*/
+    /**
+     * The method is to encode the equipments worn in the character
+     * The returned element will be as a element in character's xml tree
+     */
     public Element encodeWornEquipments(){
-        //TODO
-        return null;
-         }
+        Element element = new DefaultElement(WORN_EQUIPMENTS);
+        Collection<Equipment> currentWornEquips= wornEquipments.values();
+        if(currentWornEquips.size()>1) {
+            for (Equipment e : currentWornEquips) {
+                Element eachEquip = e.encode();
+                element.add(eachEquip);
+            }
+        }
+        return element;
+    }
+
 
     public void decodeWornEquipments(Element element){
-
-        //TODO :解析穿上身上装备的element后，将装备一件件读出来，放到wornEquipments（ArrayList）中。
+        ArrayList<Equipment> getFromXML= EquipmentManager.getEquipmentManager().encodeWornEquipments(element);
+        for(Equipment e:getFromXML){
+            wearEquipment(e);
+        }
     }
-
-
 
     /*  Archiving a character */
 
+
+    public static final String CHARACTER = "Character";
+    public static final String NAME = "Name";
+    public static final String LEVEL = "Level";
+    public static final String STRENGTH  = "Strength";
+    public static final String DEXTERITY = "Dexterity";
+    public static final String CONSTITUTION = "Constitution";
+    public static final String INTELLIGENCE = "Intelligence";
+    public static final String WISDOM = "Wisdom";
+    public static final String CHARISMA = "Charisma";
+    public static final String HIT_POINT = "HitPoint";
+    public static final String ARMOR_CLASS = "ArmorClass";
+    public static final String ATTACK_BONUS = "AttackBonus";
+    public static final String DAMAGE_BONUS = "DamageBonus";
+    public static final String MULTIPLE_ATTACKS = "MultipleAttacks";
+
+
+
+    /**
+     * The method is used to encode the data of a character into a element
+     * The data about worn equipments will be inside the data of the character
+     */
     @Override
     public Element encode(){
-       //TODO
-        return null;
+        Element element = new DefaultElement(CHARACTER);
+        element.addElement(NAME).addText(this.name);
+        element.addElement(LEVEL).addText(String.valueOf(this.level));
+        element.addElement(STRENGTH).addText(String.valueOf(this.strength));
+        element.addElement(DEXTERITY).addText(String.valueOf(this.dexterity));
+        element.addElement(CONSTITUTION).addText(String.valueOf(this.constitution));
+        element.addElement(INTELLIGENCE).addText(String.valueOf(this.intelligence));
+        element.addElement(WISDOM).addText(String.valueOf(this.wisdom));
+        element.addElement(CHARISMA).addText(String.valueOf(this.charisma));
+        element.addElement(HIT_POINT).addText(String.valueOf(hitPoint));
+        element.addElement(ARMOR_CLASS).addText(String.valueOf(this.armorClass));
+        element.addElement(ATTACK_BONUS).addText(String.valueOf(this.attackBonus));
+        element.addElement(DAMAGE_BONUS).addText(String.valueOf(this.damageBonus));
+        element.addElement(MULTIPLE_ATTACKS).addText(String.valueOf(this.multipleAttacks));
+
+        element.add(encodeWornEquipments());
+        return element;
     }
 
     @Override
     public void decode(Element element){
-        //TODO
+
+        this.name=element.element(NAME).getText();
+        this.level=Integer.parseInt(element.element(LEVEL).getText());
+        this.strength=Integer.parseInt(element.element(STRENGTH).getText());
+        this.dexterity=Integer.parseInt(element.element(DEXTERITY).getText());
+        this.constitution=Integer.parseInt(element.element(CONSTITUTION).getText());
+        this.intelligence=Integer.parseInt(element.element(INTELLIGENCE).getText());
+        this.wisdom=Integer.parseInt(element.element(WISDOM).getText());
+        this.charisma=Integer.parseInt(element.element(CHARISMA).getText());
+        this.hitPoint=Integer.parseInt(element.element(HIT_POINT).getText());
+        this.armorClass=Integer.parseInt(element.element(ARMOR_CLASS).getText());
+        this.attackBonus=Integer.parseInt(element.element(ATTACK_BONUS).getText());
+        this.damageBonus=Integer.parseInt(element.element(DAMAGE_BONUS).getText());
+        this.multipleAttacks=Integer.parseInt(element.element(MULTIPLE_ATTACKS).getText());
+        Element equipsElement=element.element(WORN_EQUIPMENTS);
+        decodeWornEquipments(equipsElement);
     }
 
 
+    /**
+     * The method is used to create a random number, to obey d20 rules
+     */
+    private int dice(int numOfDice,int rangeOfEach){
+        int result=0;
+        for(int i=0;i<numOfDice;i++){
+           result+= ((int)(Math.random()*rangeOfEach))+1;
+        }
+        return result;
+    }
 }
