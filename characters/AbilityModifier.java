@@ -30,7 +30,7 @@ public class AbilityModifier {
     /**
      * initialize the values of ability modifier
      */
-    public void setValueOfModifier(Character character){
+    public void updateValueOfModifier(Character character){
         Collection<Equipment> wornequips=character.getWornEquipments().values();
         for(Equipment e:wornequips)
             e.addEnchantBonusToModifier(this);
@@ -80,21 +80,21 @@ public class AbilityModifier {
      * Getter
      */
     public int getter(String type){
-        if(type.equals(strengthModifier))
+        if(type.equals("StrengthModifier"))
             return strengthModifier;
-        else if(type.equals(dexterityModifier))
+        else if(type.equals("DexterityModifier"))
             return dexterityModifier;
-        else if(type.equals(constitutionModifier))
+        else if(type.equals("ConstitutionModifier"))
             return constitutionModifier;
-        else if(type.equals(intelligenceModifier))
+        else if(type.equals("IntelligenceModifier"))
             return intelligenceModifier;
-        else if(type.equals(wisdomModifier))
+        else if(type.equals("WisdomModifier"))
             return wisdomModifier;
-        else if(type.equals(charismaModifier))
+        else if(type.equals("CharismaModifier"))
             return charismaModifier;
-        else if(type.equals(armorClass))
+        else if(type.equals("ArmorClass"))
             return armorClass;
-        else if(type.equals(attackBonus))
+        else if(type.equals("AttackBonus"))
             return attackBonus;
         else
             return damageBonus;

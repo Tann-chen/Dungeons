@@ -78,6 +78,9 @@ public class MainScreen extends Screen{
         jbtMapEditor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                MapEditorScreen mapEditorScreen =new MapEditorScreen();
+                MainScreen.this.belongWindow.pushScreen(mapEditorScreen);
+                mapEditorScreen.setBelongWindow(MainScreen.this.belongWindow);
             }
         });
 

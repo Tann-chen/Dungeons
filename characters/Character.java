@@ -117,6 +117,8 @@ public class Character implements Archivable{
             return charisma;
     }
 
+    public AbilityModifier getModifier(){return this.modifier;}
+
 
 
     /* Worn Equipments */
@@ -131,6 +133,10 @@ public class Character implements Archivable{
         String equipType=String.valueOf(equip.getEquipType());
         Equipment oldEquip=wornEquipments.put(equipType,equip);//oldEquip is the type of equips that has already worn
         return oldEquip;
+    }
+
+    public Equipment takeOffEquipment(String equipType){
+        return wornEquipments.remove(equipType);
     }
 
 
@@ -152,7 +158,7 @@ public class Character implements Archivable{
 
 
     public void decodeWornEquipments(Element element){
-        ArrayList<Equipment> getFromXML= EquipmentManager.getEquipmentManager().encodeWornEquipments(element);
+        ArrayList<Equipment> getFromXML= EquipmentManager.getEquipmentManager().decodeWornEquipments(element);
         for(Equipment e:getFromXML){
             wearEquipment(e);
         }
@@ -198,7 +204,6 @@ public class Character implements Archivable{
         element.addElement(ATTACK_BONUS).addText(String.valueOf(this.attackBonus));
         element.addElement(DAMAGE_BONUS).addText(String.valueOf(this.damageBonus));
         element.addElement(MULTIPLE_ATTACKS).addText(String.valueOf(this.multipleAttacks));
-
         element.add(encodeWornEquipments());
         return element;
     }

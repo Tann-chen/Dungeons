@@ -61,7 +61,7 @@ public class EquipmentManager extends Observable{
 
     /* General methods*/
 
-    private void addEquipment(Equipment equip){
+    public void addEquipment(Equipment equip){
 
         equipmentList.add(equip);
         //observer pattern
@@ -208,10 +208,22 @@ public class EquipmentManager extends Observable{
     }
 
     /**
+     * The method is used to take one equipment from the equipments repository by chest
+     */
+    public Equipment takeOneEquipmentOut(){
+        if(equipmentList.size()<1)
+            return null;
+        else{
+            Equipment temp=equipmentList.remove(0);
+            return temp;
+        }
+    }
+
+    /**
      * The method is to encode the equipments that are worn in character
      * @return the ArrayList of equipments presenting the worn equipments of character
      */
-    public ArrayList<Equipment> encodeWornEquipments(Element equipsElement){
+    public ArrayList<Equipment> decodeWornEquipments(Element equipsElement){
         ArrayList<Equipment> wornEquips =new ArrayList<Equipment>();
 
         if(equipsElement.getName().equals(Character.WORN_EQUIPMENTS)) {

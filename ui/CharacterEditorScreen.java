@@ -2,6 +2,8 @@ package ui;
 
 import characters.Character;
 import characters.CharacterManager;
+import items.EquipmentManager;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
@@ -57,6 +59,7 @@ public class CharacterEditorScreen extends Screen implements Observer{
 
 
     private JButton jbtPartialSave;
+    private JButton jbtItems;
 
     private JButton jbtExit;
     private JButton jbtEdit;
@@ -87,7 +90,7 @@ public class CharacterEditorScreen extends Screen implements Observer{
         this.add(jtxtMessage);
 
         //JList
-        characterList=new JList<String>();//TODO:滑动后才能显示内容
+        characterList=new JList<String>();
         characterList.setBackground(Color.WHITE);
         characterList.setSelectionForeground(Color.RED);
         characterList.setSelectionBackground(Color.CYAN);
@@ -265,6 +268,15 @@ public class CharacterEditorScreen extends Screen implements Observer{
         jbtPartialSave.setLocation(240,445);
         centerView.add(jbtPartialSave);
 
+        //button to open items
+        jbtItems = new JButton();
+        jbtItems.setText("Equipments");
+        jbtItems.setVisible(false);
+        jbtItems.setSize(110,36);
+        jbtItems.setLocation(485,5);
+        centerView.add(jbtItems);
+
+
         this.add(centerView);
 
 
@@ -374,6 +386,21 @@ public class CharacterEditorScreen extends Screen implements Observer{
             }
         });
 
+        jbtItems.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Character selected =null;
+                for(Character cha : CharacterEditorScreen.this.charactersList){
+                    if(selectedChaName.equals(cha.getName()))
+                        selected=cha;
+                }
+                DistributeItemsScreen distributeItemsScreen=new DistributeItemsScreen(selected);
+                CharacterEditorScreen.this.belongWindow.pushScreen(distributeItemsScreen);
+                distributeItemsScreen.setBelongWindow(CharacterEditorScreen.this.belongWindow);
+                EquipmentManager.getEquipmentManager().addObserver(distributeItemsScreen);
+            }
+        });
+
         jbtPartialSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -428,6 +455,7 @@ public class CharacterEditorScreen extends Screen implements Observer{
                 jtxtWisdom.setEditable(false);
                 jtxtCharisma.setEditable(false);
                 jbtDelete.setEnabled(true);
+                jbtItems.setVisible(true);
             }
         });
 
@@ -482,6 +510,13 @@ public class CharacterEditorScreen extends Screen implements Observer{
         jtxtIntelligence.setText(String.valueOf(cha.getData("Intelligence")));
         jtxtWisdom.setText(String.valueOf(cha.getData("Wisdom")));
         jtxtCharisma.setText(String.valueOf(cha.getData("Charisma")));
+        jtxtStrengthModi.setText(String.valueOf(cha.getModifier().getter("StrengthModifier")));
+        jtxtDexterityModi.setText(String.valueOf(cha.getModifier().getter("DexterityModifier")));
+        jtxtConsitutionModi.setText(String.valueOf(cha.getModifier().getter("ConstitutionModifier")));
+        jtxtIntelligenceModi.setText(String.valueOf(cha.getModifier().getter("IntelligenceModifier")));
+        jtxtWisdomModi.setText(String.valueOf(cha.getModifier().getter("WisdomModifier")));
+        jtxtCharismaModi.setText(String.valueOf(cha.getModifier().getter("CharismaModifier")));
+
     }
 
 }
