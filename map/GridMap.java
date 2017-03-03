@@ -3,8 +3,6 @@ package map;
 import archive.Archivable;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
-
-import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -64,8 +62,6 @@ public class GridMap extends Observable implements Archivable{
         }
 
     }
-
-
 
 
                /* Archiving */

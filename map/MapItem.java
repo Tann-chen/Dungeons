@@ -11,11 +11,13 @@ import org.dom4j.tree.DefaultElement;
 public class MapItem implements Archivable{
 
     /* the num to present the item types*/
-    protected static final int ENTRY=8;
-    protected static final int EXIT=9;
-    protected static final int WALL=1;
-    protected static final int CHARACTER=2;
-    protected static final int CHEST=3;
+    public static final int ENTRY=8;
+    public static final int EXIT=9;
+    public static final int FLOOR=0;
+    public static final int WALL=1;
+    public static final int CHARACTER=2;
+    public static final int CHEST=3;
+
 
 
     /* data fields*/
@@ -32,6 +34,8 @@ public class MapItem implements Archivable{
 
     public void setItemType(int type){
         itemType=type;
+        if(type==FLOOR)
+            across=true;
         if(type==ENTRY)
             across=true;
         if(type==EXIT)

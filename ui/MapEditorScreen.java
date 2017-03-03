@@ -1,5 +1,7 @@
 package ui;
 
+import map.GridMap;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -123,7 +125,14 @@ public class MapEditorScreen extends Screen{
                     System.out.println("Rows number can not be empty");
                     return;
                 }
-                //TODO:下一张地图编辑器
+                int rows=Integer.parseInt(rowsNum);
+                int columns=Integer.parseInt(columnsNum);
+
+                GridMap newGridMap = new GridMap(rows,columns);
+                GridMapEditorScreen gridMapEditorScreen = new GridMapEditorScreen(rows,columns);
+                gridMapEditorScreen.setBelongWindow(MapEditorScreen.this.belongWindow);
+                MapEditorScreen.this.belongWindow.pushScreen(gridMapEditorScreen);
+                gridMapEditorScreen.setBelongGridMap(newGridMap);
             }
         });
     }
