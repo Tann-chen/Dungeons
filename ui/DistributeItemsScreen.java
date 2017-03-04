@@ -52,15 +52,13 @@ public class DistributeItemsScreen extends Screen implements Observer{
         this.add(jtxtMessage);
 
         //JList
-        repositoryList=new JList<String>();//TODO:滑动后才能显示内容
+        repositoryList=new JList<String>();
         repositoryList.setBackground(Color.WHITE);
         repositoryList.setSelectionForeground(Color.RED);
         repositoryList.setSelectionBackground(Color.CYAN);
-        JScrollPane scrollList =new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollList.getViewport().setView(repositoryList);
-        scrollList.setSize(195,489);
-        scrollList.setLocation(3,40);
-        this.add(scrollList);
+        repositoryList.setSize(195,489);
+        repositoryList.setLocation(3,40);
+        this.add(repositoryList);
 
         //right side
         JPanel right = new JPanel();
@@ -138,7 +136,7 @@ public class DistributeItemsScreen extends Screen implements Observer{
         jbtExit.setLocation(20,7);
         footer.add(jbtExit);
 
-        //button3
+        //button2
         jbtEquip= new JButton();
         jbtEquip.setText("Equip");
         Screen.uniButtionStyle(jbtEquip);
@@ -148,6 +146,12 @@ public class DistributeItemsScreen extends Screen implements Observer{
         footer.add(jbtEquip);
         this.add(footer);
 
+        //button3
+        jbtSave=new JButton();
+        jbtSave.setText("Save");
+        jbtSave.setSize(130,36);
+        jbtSave.setLocation(660,7);
+        footer.add(jbtSave);
 
 
         this.targetCharacter=target;
@@ -175,12 +179,22 @@ public class DistributeItemsScreen extends Screen implements Observer{
                 Equipment temp= targetCharacter.wearEquipment(selected);
                 if(temp!=null)
                     EquipmentManager.getEquipmentManager().addEquipment(temp);
-                targetCharacter.getModifier().updateValueOfModifier(targetCharacter);//update modifier
                 EquipmentManager.getEquipmentManager().deleteItem(selected.getEquipName());
                 repaintUI();
 
             }
         });
+
+        jbtSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                DistributeItemsScreen.this.belongWindow.popScreen();
+
+            }
+        });
+
 
         repositoryList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -269,19 +283,38 @@ public class DistributeItemsScreen extends Screen implements Observer{
         Set wornItemsTypes =targetCharacter.getWornEquipments().keySet();
         if(!wornItemsTypes.contains("Armor"))
             jbtArmor.setEnabled(false);
+        else
+            jbtArmor.setEnabled(true);
+
         if(!wornItemsTypes.contains("Belt"))
             jbtBelt.setEnabled(false);
+        else
+            jbtBelt.setEnabled(true);
+
         if(!wornItemsTypes.contains("Boots"))
             jbtBoots.setEnabled(false);
+        else
+            jbtBoots.setEnabled(true);
+
         if(!wornItemsTypes.contains("Helmet"))
             jbtHelmet.setEnabled(false);
+        else
+            jbtHelmet.setEnabled(true);
+
         if(!wornItemsTypes.contains("Ring"))
             jbtRing.setEnabled(false);
+        else
+            jbtRing.setEnabled(true);
+
         if(!wornItemsTypes.contains("Shield"))
             jbtShield.setEnabled(false);
+        else
+            jbtShield.setEnabled(true);
+
         if(!wornItemsTypes.contains("Weapon"))
             jbtWeapon.setEnabled(false);
-
+        else
+            jbtWeapon.setEnabled(true);
     }
 
     /**
@@ -295,6 +328,5 @@ public class DistributeItemsScreen extends Screen implements Observer{
             showInJList[i]=itemsList.get(i).getEquipName();
         }
         repositoryList.setListData(showInJList);
-
     }
 }

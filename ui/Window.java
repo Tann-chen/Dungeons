@@ -1,6 +1,7 @@
 package ui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Stack;
 
 /**
@@ -18,7 +19,7 @@ public class Window extends JFrame{
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setSize(800,600);
-        this.setLayout(null);
+        this.setLayout(new BorderLayout(0,0));
         this.setVisible(true);
 
         screenStack=new Stack<Screen>();

@@ -3,23 +3,25 @@ package ui;
 import map.GridMap;
 import map.MapIcons;
 import map.MapItem;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * The class is to build the core part of the map editor
  * after player input the size of the map, This screen will shown to player, depended on the input size.
  * @author Tann Chen
  */
-public class GridMapEditorScreen extends Screen{
+public class GridMapEditorScreen extends Screen implements Observer{
 
     private int rowsNum;
     private int columnsNum;
     private GridMap belongGridMap;
+
 
 
     /*JComponents*/
@@ -31,8 +33,8 @@ public class GridMapEditorScreen extends Screen{
     private int paddingUp=40;
     private int paddingLeft=150;
 
-    public GridMapEditorScreen(int rows, int columns){
-
+    public GridMapEditorScreen(int rows, int columns,GridMap belong){
+        this.belongGridMap=belong;
         this.rowsNum=rows;
         this.columnsNum=columns;
 
@@ -89,6 +91,8 @@ public class GridMapEditorScreen extends Screen{
 
 
 
+        //paint the icons of all buttons
+        repaintButtonsIcon();
 
         /*action listeners*/
 
@@ -102,9 +106,9 @@ public class GridMapEditorScreen extends Screen{
                         int r=Integer.parseInt(split[0]);
                         int c=Integer.parseInt(split[1]);
                         SelectMapItemDialog selectMapItemDialog =new SelectMapItemDialog();
-                        String selected = selectMapItemDialog.getSelectedType();
+                        int selected = selectMapItemDialog.getSelectedType();
                         selectMapItemDialog.dispose();
-                        button.setIcon(MapIcons.getMapIconsManager().getIcons(selected));
+                        //button.setIcon(MapIcons.getMapIconsManager().getIcons(selected));
                         MapItem newMapItem=createMapItem(selected,c,r);
                         belongGridMap.setItem(newMapItem);
                     }
@@ -122,7 +126,10 @@ public class GridMapEditorScreen extends Screen{
         jbtSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                //save map
+                GridMapEditorScreen.this.belongGridMap.save();
+                System.out.println("The map ["+GridMapEditorScreen.this.belongGridMap.getMapName()+"] is saved");
+                //exit
                 GridMapEditorScreen.this.belongWindow.popScreen();
                 GridMapEditorScreen.this.belongWindow.popScreen();
             }
@@ -134,27 +141,44 @@ public class GridMapEditorScreen extends Screen{
     /**
      * The method is used to combine a grid map editor screen with a gridMap(model)
      */
-    public void setBelongGridMap(GridMap gm){
+  /*  public void setBelongGridMap(GridMap gm){
         this.belongGridMap=gm;
-    }
+    }*/
 
     /**
      * The method is used to create a MapItem instance according player's choice
      */
-    public MapItem createMapItem(String type, int x, int y){
+    public MapItem createMapItem(int type, int x, int y){
         MapItem newMapItem=new MapItem();
         newMapItem.setLocation(x,y);
-        if(type.equals("Entry"))
-            newMapItem.setItemType(MapItem.ENTRY);
-        else if(type.equals("Exit"))
-            newMapItem.setItemType(MapItem.EXIT);
-        else if(type.equals("Wall"))
-            newMapItem.setItemType(MapItem.WALL);
-        else if(type.equals("Chest"))
-            newMapItem.setItemType(MapItem.CHEST);
-        else if(type.equals("Character"))
-            newMapItem.setItemType(MapItem.CHARACTER);
+        newMapItem.setItemType(type);
         return newMapItem;
     }
 
+
+    /**
+     * The method is used to repaint the icons of every buttons in the screen
+     */
+    private void repaintButtonsIcon(){
+
+        MapItem[][] temp=this.belongGridMap.getMapItems();
+
+        for(int r=0 ; r<this.rowsNum;r++){
+            for(int c=0 ; c<this.columnsNum ; c++){
+                if(temp[r][c]!=null){
+                int itemType=temp[r][c].getItemType();
+                buttons[r][c].setIcon((MapIcons.getMapIconsManager().getIcons(itemType)));
+                }
+            }
+        }
+    }
+
+
+    /**
+     * The method is used to update the screen, depended on the change on the corresponding gridMap
+     */
+    @Override
+    public void update(Observable obs, Object o){
+        repaintButtonsIcon();
+    }
 }

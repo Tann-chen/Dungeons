@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * The class is to define the main screen, which is shown in the beginning of the game
@@ -17,6 +16,7 @@ import java.io.File;
 public class MainScreen extends Screen{
 
     private JButton jbtStartGame;
+    private JButton jbtCampaign;
     private JButton jbtMapEditor;
     private JButton jbtCharacterEditor;
     private JButton jbtItemEditor;
@@ -28,37 +28,45 @@ public class MainScreen extends Screen{
         jlbTitle = new JLabel();
         jlbTitle.setText("Dungeons");
         Screen.uniLabelStyle(jlbTitle);
-        jlbTitle.setFont(new Font("Times", 0, 90));
+        jlbTitle.setFont(new Font("Times", 0, 85));
         jlbTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        jlbTitle.setLocation(160, 120);
-        jlbTitle.setSize(500, 100);
+        jlbTitle.setLocation(160, 100);
+        jlbTitle.setSize(480, 100);
         this.add(jlbTitle);
 
-        // add a start game button
-        jbtStartGame = new JButton();
+        //start game
+        jbtStartGame=new JButton();
         jbtStartGame.setText("Start Game");
-        jbtStartGame.setLocation(300, 300);
-        jbtStartGame.setSize(200, 40);
+        jbtStartGame.setSize(200,40);
+        jbtStartGame.setLocation(300,250);
         this.add(jbtStartGame);
+
+
+        // add a campaign button
+        jbtCampaign = new JButton();
+        jbtCampaign.setText("Campaign Editor");
+        jbtCampaign.setLocation(300, 300);
+         jbtCampaign.setSize(200, 40);
+        this.add(jbtCampaign);
 
 
         // add a map editor button
         jbtMapEditor = new JButton();
-        jbtMapEditor.setText("Edit Maps");
+        jbtMapEditor.setText("Maps Editor");
         jbtMapEditor.setLocation(300, 350);
         jbtMapEditor.setSize(200, 40);
         this.add(jbtMapEditor);
 
         // add a character editor button
         jbtCharacterEditor = new JButton();
-        jbtCharacterEditor.setText("Edit Characters");
+        jbtCharacterEditor.setText("Characters Editor");
         jbtCharacterEditor.setLocation(300, 400);
         jbtCharacterEditor.setSize(200, 40);
         this.add(jbtCharacterEditor);
 
         // add an item editor button
         jbtItemEditor = new JButton();
-        jbtItemEditor.setText("Edit Items");
+        jbtItemEditor.setText("Items Editor");
         jbtItemEditor.setLocation(300, 450);
         jbtItemEditor.setSize(200, 40);
         this.add(jbtItemEditor);
@@ -72,6 +80,15 @@ public class MainScreen extends Screen{
         jbtStartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            }
+        });
+
+        jbtCampaign.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CampaignEditorScreen campaignEditorScreen =new CampaignEditorScreen();
+                MainScreen.this.belongWindow.pushScreen(campaignEditorScreen);
+                campaignEditorScreen.setBelongWindow(MainScreen.this.belongWindow);
             }
         });
 

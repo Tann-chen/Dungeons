@@ -1,6 +1,7 @@
 package ui;
 
 import map.MapIcons;
+import map.MapItem;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,12 +17,12 @@ public class SelectMapItemDialog extends JDialog {
 
 
     private JPanel centerView = new JPanel();
-    private String[] itemTypes={"Entry","Exit","Wall","Chest","Character"};
+    private int[] itemTypes={MapItem.ENTRY, MapItem.EXIT,MapItem.WALL,MapItem.CHEST,MapItem.CHARACTER};
 
     public final int paddingUp=120;
     public final int paddingLeft=120;
     private JButton[] buttons;
-    private String selectedType;
+    private int selectedType;
 
 
 
@@ -67,7 +68,7 @@ public class SelectMapItemDialog extends JDialog {
 
     }
 
-    public String getSelectedType(){return this.selectedType;}
+    public int getSelectedType(){return this.selectedType;}
 
 
 

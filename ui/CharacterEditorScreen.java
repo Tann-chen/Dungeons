@@ -94,11 +94,9 @@ public class CharacterEditorScreen extends Screen implements Observer{
         characterList.setBackground(Color.WHITE);
         characterList.setSelectionForeground(Color.RED);
         characterList.setSelectionBackground(Color.CYAN);
-        JScrollPane scrollList =new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollList.getViewport().setView(characterList);
-        scrollList.setSize(195,489);
-        scrollList.setLocation(3,40);
-        this.add(scrollList);
+        characterList.setSize(195,489);
+        characterList.setLocation(3,40);
+        this.add(characterList);
 
 
         //center view
@@ -342,6 +340,14 @@ public class CharacterEditorScreen extends Screen implements Observer{
         jbtCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                jtxtChaName.setText("");
+                jtxtStrength.setText("");
+                jtxtLevel.setText("");
+                jtxtCharisma.setText("");
+                jtxtWisdom.setText("");
+                jtxtIntelligence.setText("");
+                jtxtConstitution.setText("");
+                jtxtDexterity.setText("");
                 jtxtChaName.setEditable(true);
                 jbtPartialSave.setVisible(true);
                 jbtPartialSave.setText("Create");
@@ -492,6 +498,7 @@ public class CharacterEditorScreen extends Screen implements Observer{
      * The method override update method in Observer to update the content
      */
     @Override public void update(Observable obs, Object o){
+        //update the character list
         this.charactersList=((CharacterManager)obs).getCharactersList();
         int num=this.charactersList.size();
         String[] showInJList=new String[num];
@@ -499,6 +506,7 @@ public class CharacterEditorScreen extends Screen implements Observer{
             showInJList[i]=charactersList.get(i).getName();
         }
         characterList.setListData(showInJList);
+
     }
 
     public void showSomeOneInfo(Character cha){
@@ -516,7 +524,6 @@ public class CharacterEditorScreen extends Screen implements Observer{
         jtxtIntelligenceModi.setText(String.valueOf(cha.getModifier().getter("IntelligenceModifier")));
         jtxtWisdomModi.setText(String.valueOf(cha.getModifier().getter("WisdomModifier")));
         jtxtCharismaModi.setText(String.valueOf(cha.getModifier().getter("CharismaModifier")));
-
     }
 
 }

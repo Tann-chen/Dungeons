@@ -17,5 +17,6 @@ public class Dungeons {
         mainScreen.setBelongWindow(dungeonsWindow);
         EquipmentManager.getEquipmentManager().loadEquipmentModule();
         CharacterManager.getCharacterManager().loadCharacterModule();
+        // do not need to load the map module
     }
 }

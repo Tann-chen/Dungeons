@@ -31,6 +31,7 @@ public class AbilityModifier {
      * initialize the values of ability modifier
      */
     public void updateValueOfModifier(Character character){
+        initiaModifierValue();  //avoid repeating
         Collection<Equipment> wornequips=character.getWornEquipments().values();
         for(Equipment e:wornequips)
             e.addEnchantBonusToModifier(this);
@@ -98,6 +99,21 @@ public class AbilityModifier {
             return attackBonus;
         else
             return damageBonus;
+    }
+
+    /**
+     * The method is used to
+     */
+    private void initiaModifierValue(){
+        strengthModifier=0;
+        dexterityModifier=0;
+        constitutionModifier=0;
+        intelligenceModifier=0;
+        wisdomModifier=0;
+        charismaModifier=0;
+        armorClass=0;
+        attackBonus=0;
+        damageBonus=0;
     }
 
 }

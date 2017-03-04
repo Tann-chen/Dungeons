@@ -5,6 +5,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,11 +46,7 @@ public class FileOperator {
      * @param file where to be wrote the data
      * @param doc the document to write
      */
-    //TODO:dom4j是否会直接覆盖文档内容？若不会覆盖，需要先清空文档内容
     public static void fileWriter(File file,Document doc){
-
-
-
         XMLWriter writer = null;
         try{
             writer = new XMLWriter(new FileWriter(file));
@@ -70,4 +68,24 @@ public class FileOperator {
 
     }
 
+
+    /**
+     * The method is used to open a File chooser, select a file, read the file
+     * @return rootElement of the xml file
+     */
+    public static Element fileChooser(){
+        JFileChooser fileChooser =new JFileChooser();
+        fileChooser.showOpenDialog(null);
+        File file = fileChooser.getSelectedFile();
+        SAXReader reader = new SAXReader();
+        Document document = null;
+        try {
+            document = reader.read(file);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        Element root = document.getRootElement();
+        return root;
+    }
 }
+

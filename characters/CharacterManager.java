@@ -1,6 +1,7 @@
 package characters;
 
 import archive.FileOperator;
+import items.Equipment;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -112,7 +113,7 @@ public class CharacterManager extends Observable{
         Character target=null;
         for(Character c:charactersList){
             if(c.getName().equals(s))
-                c=target;
+                target=c;
         }
         removeCharacter(target);
     }
@@ -135,4 +136,26 @@ public class CharacterManager extends Observable{
         target.setDataOfCha("Wisdom",Integer.valueOf(wisdom));
         target.setDataOfCha("Charisma",Integer.valueOf(charisma));
     }
+
+    /**
+     * The method is used to wear  a equipment for a pointed character from UI
+     * The reason why this method encapsulate the wearEquipment() in character is to take the advantage of observer pattern
+     */
+    public Equipment WearEquipmentForOne(Character targCharacter, Equipment targEquip){
+        Equipment temp = targCharacter.wearEquipment(targEquip);
+        setChanged();
+        notifyObservers(this);
+        return temp;
+    }
+    /**
+     * The method is used to  take off a equipment for a pointed character from UI
+     * The reason why this method encapsulate the takeOffEquipment() in character is to take the advantage of observer pattern
+     */
+    public Equipment TakeOffEquipFromOne(Character tarCharacter,String equipType){
+        Equipment temp = tarCharacter.takeOffEquipment(equipType);
+        setChanged();
+        notifyObservers(this);
+        return temp;
+    }
+
 }

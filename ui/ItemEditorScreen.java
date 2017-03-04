@@ -81,11 +81,12 @@ public class ItemEditorScreen extends Screen implements Observer {
         itemsList.setBackground(Color.WHITE);
         itemsList.setSelectionForeground(Color.RED);
         itemsList.setSelectionBackground(Color.CYAN);
-        JScrollPane scrollList =new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollList.getViewport().setView(itemsList);
-        scrollList.setSize(195,489);
-        scrollList.setLocation(3,40);
-        this.add(scrollList);
+        itemsList.setSize(195,489);
+        itemsList.setLocation(3,40);
+        this.add(itemsList);
+
+
+
 
 
         //center view

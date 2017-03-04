@@ -132,11 +132,14 @@ public class Character implements Archivable{
     public Equipment wearEquipment(Equipment equip){
         String equipType=String.valueOf(equip.getEquipType());
         Equipment oldEquip=wornEquipments.put(equipType,equip);//oldEquip is the type of equips that has already worn
+        this.modifier.updateValueOfModifier(this);
         return oldEquip;
     }
 
     public Equipment takeOffEquipment(String equipType){
-        return wornEquipments.remove(equipType);
+        Equipment removed=wornEquipments.remove(equipType);
+        this.modifier.updateValueOfModifier(this);
+        return removed;
     }
 
 
@@ -147,7 +150,7 @@ public class Character implements Archivable{
     public Element encodeWornEquipments(){
         Element element = new DefaultElement(WORN_EQUIPMENTS);
         Collection<Equipment> currentWornEquips= wornEquipments.values();
-        if(currentWornEquips.size()>1) {
+        if(currentWornEquips.size()>=1) {
             for (Equipment e : currentWornEquips) {
                 Element eachEquip = e.encode();
                 element.add(eachEquip);

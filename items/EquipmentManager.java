@@ -223,6 +223,7 @@ public class EquipmentManager extends Observable{
      * The method is to encode the equipments that are worn in character
      * @return the ArrayList of equipments presenting the worn equipments of character
      */
+
     public ArrayList<Equipment> decodeWornEquipments(Element equipsElement){
         ArrayList<Equipment> wornEquips =new ArrayList<Equipment>();
 
@@ -242,7 +243,6 @@ public class EquipmentManager extends Observable{
                 wornEquips.add(equipment);
             }
         }
-
         return wornEquips;
     }
 

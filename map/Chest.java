@@ -12,7 +12,7 @@ public class Chest extends MapItem{
 
     private Equipment[] contain;
     private String itemImage="chest.img";
-    private boolean openStatus;      //open or not
+    private boolean openStatus;  //open or not
 
     public Chest(){
         this.setItemType(MapItem.CHEST);

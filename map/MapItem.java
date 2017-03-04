@@ -67,7 +67,7 @@ public class MapItem implements Archivable{
         this.YLocate=Integer.parseInt(element.element(Y_LOCATION).getText());
         this.itemType= Integer.parseInt(element.element(ITEM_TYPE).getText());
         this.across=Boolean.parseBoolean(element.element(ACROSS).getText());
-        this.itemImage=element.element(ITEM_IMAGE).getText();
+        //this.itemImage=element.element(ITEM_IMAGE).getText();
 
     }
 
@@ -77,7 +77,7 @@ public class MapItem implements Archivable{
         element.addElement(Y_LOCATION).addText(String.valueOf(this.YLocate));
         element.addElement(ITEM_TYPE).addText(String.valueOf(this.itemType));
         element.addElement(ACROSS).addText(String.valueOf(this.across));
-        element.addElement(ITEM_IMAGE).addText(this.itemImage);
+       // element.addElement(ITEM_IMAGE).addText(this.itemImage);
         return element;
     }
 }

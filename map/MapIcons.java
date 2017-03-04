@@ -42,23 +42,22 @@ public class MapIcons {
         iconChest = new ImageIcon("icon/chest.jpg");
     }
 
-    public ImageIcon getIcons(String typeName)
+    public ImageIcon getIcons(int typeName)
     {
-        if(typeName==null)
+        if(typeName==0)
             return null;
-        if(typeName.equals("Character"))
+        if(typeName==MapItem.CHARACTER)
             return iconCharacter;
-        else if(typeName.equals("Entry"))
+        else if(typeName==MapItem.ENTRY)
             return iconEntry;
-        else if(typeName.equals("Exit"))
+        else if(typeName==MapItem.EXIT)
             return iconExit;
-        else if(typeName.equals("Wall"))
+        else if(typeName==MapItem.WALL)
             return iconWall;
-        else if(typeName.equals("Chest"))
+        else if(typeName==MapItem.CHEST)
             return iconChest;
         else
             return null;
     }
-
 
 }
