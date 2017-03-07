@@ -72,14 +72,13 @@ public class CampaignEditorScreen extends Screen{
 
 
 
-
-
         /* action listeners*/
 
         jbtNew.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateCampaignScreen createCampaignScreen=new CreateCampaignScreen();
+                Campaign campaign=new Campaign(4);
+                CreateCampaignScreen createCampaignScreen=new CreateCampaignScreen(campaign);
                 CampaignEditorScreen.this.belongWindow.pushScreen(createCampaignScreen);
                 createCampaignScreen.setBelongWindow(CampaignEditorScreen.this.belongWindow);
 
@@ -89,6 +88,14 @@ public class CampaignEditorScreen extends Screen{
         jbtload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Campaign newCampaign =new Campaign();
+                newCampaign.load();
+                int num = newCampaign.getLengthOfCampaign();
+                /*GridMapEditorScreen gridMapEditorScreen = new GridMapEditorScreen(rows,columns,newGridMap);
+                gridMapEditorScreen.setBelongWindow(MapEditorScreen.this.belongWindow);
+                MapEditorScreen.this.belongWindow.pushScreen(gridMapEditorScreen);
+                newGridMap.addObserver(gridMapEditorScreen);*/
+                
                 setJbtLoadStatus();
             }
         });
@@ -106,8 +113,6 @@ public class CampaignEditorScreen extends Screen{
                 CampaignEditorScreen.this.belongWindow.popScreen();
             }
         });
-
-
 
     }
 

@@ -1,5 +1,8 @@
 package ui;
 
+import campaign.Campaign;
+import map.GridMap;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -13,6 +16,10 @@ import java.awt.event.ActionListener;
 public class CreateCampaignScreen extends Screen {
 
     private JTextField jtxtMessage;
+
+    private JLabel jlbName;
+    private JTextField jtxtName;
+
     private JButton map1;
     private JButton map2;
     private JButton map3;
@@ -25,8 +32,12 @@ public class CreateCampaignScreen extends Screen {
     private JButton jbtExit;
     private JButton jbtSave;
 
+    private Campaign belongingCampaign;
 
-    public CreateCampaignScreen(){
+
+    public CreateCampaignScreen(Campaign campaign){
+
+        this.belongingCampaign=campaign;
 
         //message
         jtxtMessage=new JTextField();
@@ -43,9 +54,21 @@ public class CreateCampaignScreen extends Screen {
         center.setLayout(null);
         center.setSize(800,489);
         center.setLocation(0,41);
+        //name label
+        jlbName=new JLabel();
+        jlbName.setText("Campaign name");
+        jlbName.setSize(150,40);
+        jlbName.setLocation(150,60);
+        center.add(jlbName);
+        //name textfield
+        jtxtName=new JTextField();
+        jtxtName.setSize(150,38);
+        jtxtName.setLocation(280,60);
+        center.add(jtxtName);
+
         //map1
         map1=new JButton();
-        map1.setText("map1");
+        map1.setText("");
         map1.setSize(50,50);
         map1.setLocation(150,220);
         center.add(map1);
@@ -57,7 +80,7 @@ public class CreateCampaignScreen extends Screen {
         center.add(line1);
         //map2
         map2=new JButton();
-        map2.setText("map2");
+        map2.setText("");
         map2.setSize(50,50);
         map2.setLocation(250,220);
         center.add(map2);
@@ -69,7 +92,7 @@ public class CreateCampaignScreen extends Screen {
         center.add(line2);
         //map3
         map3=new JButton();
-        map3.setText("map3");
+        map3.setText("");
         map3.setSize(50,50);
         map3.setLocation(350,220);
         center.add(map3);
@@ -81,7 +104,7 @@ public class CreateCampaignScreen extends Screen {
         center.add(line3);
         //button4
         map4=new JButton();
-        map4.setText("map4");
+        map4.setText("");
         map4.setSize(50,50);
         map4.setLocation(450,220);
         center.add(map4);
@@ -125,8 +148,53 @@ public class CreateCampaignScreen extends Screen {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                String name = jtxtName.getText().trim();
+                belongingCampaign.setCampName(name);
+                belongingCampaign.save();
+                //exit
+                CreateCampaignScreen.this.belongWindow.popScreen();
+
             }
         });
+        map1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GridMap newGridMap= new GridMap();
+                newGridMap.load();
+                belongingCampaign.setMapInCampaign(newGridMap,0);
+                map1.setText(newGridMap.getMapName());
+            }
+        });
+        map2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GridMap newGridMap= new GridMap();
+                newGridMap.load();
+                belongingCampaign.setMapInCampaign(newGridMap,1);
+                map2.setText(newGridMap.getMapName());
+            }
+        });
+        map3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GridMap newGridMap= new GridMap();
+                newGridMap.load();
+                belongingCampaign.setMapInCampaign(newGridMap,2);
+                map3.setText(newGridMap.getMapName());
+            }
+        });
+        map4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GridMap newGridMap= new GridMap();
+                newGridMap.load();
+                belongingCampaign.setMapInCampaign(newGridMap,3);
+                map4.setText(newGridMap.getMapName());
+
+            }
+        });
+
+
 
     }
 
