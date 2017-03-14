@@ -3,6 +3,7 @@ package characters;
 import archive.Archivable;
 import items.Equipment;
 import items.EquipmentManager;
+import map.MapItem;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * The class is to build the character, including fighter and enemy
  */
-public class Character implements Archivable{
+public class Character extends MapItem implements Archivable{
 
     private String name;
     private int level;
@@ -44,21 +45,13 @@ public class Character implements Archivable{
         level=1;
         multipleAttacks=1;
         wornEquipments=new HashMap<String,Equipment>();
-        initAbilityScore();
         modifier=new AbilityModifier();
+        updateOtherAbilities();
+        this.setItemType(MapItem.CHARACTER);
     }
 
-    /**
-     *The method is used to initialize the ability scores of fighter
-     */
-    public void initAbilityScore(){
-        strength=dice(4,6);
-        dexterity=dice(4,6);
-        constitution=dice(4,6);
-        intelligence=dice(4,6);
-        wisdom=dice(4,6);
-        charisma=dice(4,6);
-    }
+
+    public String getName() { return name; }
 
     /**
      * The method is used to set the ability score of the fighter
@@ -90,11 +83,11 @@ public class Character implements Archivable{
         hitPoint=dice(1,10)+modifier.getter("constitutionModifier");
     }
 
+
     /*AbilityModifier*/
 
     private AbilityModifier modifier;
 
-    public String getName() { return name; }
 
     public Map<String, Equipment> getWornEquipments() {
         return wornEquipments;
@@ -133,12 +126,14 @@ public class Character implements Archivable{
         String equipType=String.valueOf(equip.getEquipType());
         Equipment oldEquip=wornEquipments.put(equipType,equip);//oldEquip is the type of equips that has already worn
         this.modifier.updateValueOfModifier(this);
+        updateOtherAbilities();
         return oldEquip;
     }
 
     public Equipment takeOffEquipment(String equipType){
         Equipment removed=wornEquipments.remove(equipType);
         this.modifier.updateValueOfModifier(this);
+        updateOtherAbilities();
         return removed;
     }
 
@@ -184,7 +179,7 @@ public class Character implements Archivable{
     public static final String ATTACK_BONUS = "AttackBonus";
     public static final String DAMAGE_BONUS = "DamageBonus";
     public static final String MULTIPLE_ATTACKS = "MultipleAttacks";
-
+    public static final String ATTITUDE_IN_MAP="AttitudeInMap";
 
 
     /**
@@ -193,7 +188,9 @@ public class Character implements Archivable{
      */
     @Override
     public Element encode(){
-        Element element = new DefaultElement(CHARACTER);
+        Element element = super.encode();
+        //Element element = new DefaultElement(CHARACTER);
+        element.setName(CHARACTER);
         element.addElement(NAME).addText(this.name);
         element.addElement(LEVEL).addText(String.valueOf(this.level));
         element.addElement(STRENGTH).addText(String.valueOf(this.strength));
@@ -207,6 +204,7 @@ public class Character implements Archivable{
         element.addElement(ATTACK_BONUS).addText(String.valueOf(this.attackBonus));
         element.addElement(DAMAGE_BONUS).addText(String.valueOf(this.damageBonus));
         element.addElement(MULTIPLE_ATTACKS).addText(String.valueOf(this.multipleAttacks));
+        element.addElement(ATTITUDE_IN_MAP).addText(String.valueOf(this.attitudeInMap));
         element.add(encodeWornEquipments());
         return element;
     }
@@ -214,6 +212,7 @@ public class Character implements Archivable{
     @Override
     public void decode(Element element){
 
+        super.decode(element);
         this.name=element.element(NAME).getText();
         this.level=Integer.parseInt(element.element(LEVEL).getText());
         this.strength=Integer.parseInt(element.element(STRENGTH).getText());
@@ -227,10 +226,10 @@ public class Character implements Archivable{
         this.attackBonus=Integer.parseInt(element.element(ATTACK_BONUS).getText());
         this.damageBonus=Integer.parseInt(element.element(DAMAGE_BONUS).getText());
         this.multipleAttacks=Integer.parseInt(element.element(MULTIPLE_ATTACKS).getText());
+        this.attitudeInMap=Integer.parseInt(element.element(ATTITUDE_IN_MAP).getText());
         Element equipsElement=element.element(WORN_EQUIPMENTS);
         decodeWornEquipments(equipsElement);
     }
-
 
     /**
      * The method is used to create a random number, to obey d20 rules
@@ -242,4 +241,18 @@ public class Character implements Archivable{
         }
         return result;
     }
+
+
+
+    /* Interaction in game map*/
+
+    public static final int FRIENDLY=1;
+    public static final int HOSTILE=2;
+
+    //friendly or hostile
+    private int attitudeInMap;
+
+    public int getAttitude() { return attitudeInMap;}
+
+    public void setAttitude(int attitude) { this.attitudeInMap = attitude;}
 }

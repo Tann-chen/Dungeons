@@ -5,7 +5,6 @@ import items.Equipment;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-
 import java.io.File;
 import java.util.*;
 
@@ -100,8 +99,11 @@ public class CharacterManager extends Observable{
     /**
      * The method will be invoked in Ui to create an character object
      */
-    public Character createCharacterInstance(String chaName){
-        Character newCharacter = new Character(chaName);
+    public Character createCharacterInstance(String chaName,CharacterBuilder builder){
+
+        CharacterDirector director = new CharacterDirector(builder);
+        director.createNewCharacter(chaName);
+        Character newCharacter = director.getCharacterProduct();
         addCharacter(newCharacter);
         return newCharacter;
     }
@@ -148,7 +150,7 @@ public class CharacterManager extends Observable{
         return temp;
     }
     /**
-     * The method is used to  take off a equipment for a pointed character from UI
+     * The method is used to take off a equipment for a pointed character from UI
      * The reason why this method encapsulate the takeOffEquipment() in character is to take the advantage of observer pattern
      */
     public Equipment TakeOffEquipFromOne(Character tarCharacter,String equipType){
@@ -156,6 +158,19 @@ public class CharacterManager extends Observable{
         setChanged();
         notifyObservers(this);
         return temp;
+    }
+
+    /**
+     * The method is used to match a character using its name
+     * @return the matched character, or null if not matched
+     */
+    public Character matchTheCharacter(String characterName){
+        Character match=null;
+        for(Character c:charactersList){
+            if(c.getName().equals(characterName))
+                match=c;
+        }
+        return match;
     }
 
 }

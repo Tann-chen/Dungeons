@@ -3,9 +3,12 @@ package items;
 import java.util.ArrayList;
 import archive.FileOperator;
 import characters.Character;
+import map.Chest;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+
+import javax.swing.text.html.HTMLDocument;
 import java.io.File;
 import java.util.*;
 import java.util.Map;
@@ -231,19 +234,27 @@ public class EquipmentManager extends Observable{
             Iterator i = equipsElement.elementIterator();
             while (i.hasNext()) {
                 Element element = (Element) i.next();
-                Class classObj = registeredEquipments.get(element.getName());
-                Equipment equipment = null;
-                try {
-                    equipment = (Equipment) classObj.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (equipment != null)
-                    equipment.decode(element);
+                Equipment equipment=decodeEquipment(element);
                 wornEquips.add(equipment);
             }
         }
         return wornEquips;
     }
 
+    /**
+     * The method is used to decode the element of a equipment
+     * @return a corresponding equipment with specific type
+     */
+    public Equipment decodeEquipment(Element equipElement){
+        Class classObj = registeredEquipments.get(equipElement.getName());
+        Equipment equipment = null;
+        try {
+            equipment = (Equipment) classObj.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (equipment != null)
+            equipment.decode(equipElement);
+        return equipment;
+    }
 }

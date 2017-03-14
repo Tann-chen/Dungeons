@@ -102,11 +102,21 @@ public class GridMap extends Observable implements Archivable{
    public void decodeMapItems(Element itemsElement){
        ArrayList<MapItem> contents = new ArrayList<MapItem>();
        Iterator i = itemsElement.elementIterator();
+
        while (i.hasNext()) {
            Element element = (Element) i.next();
-           MapItem temp = new MapItem();
-           temp.decode(element);
-           contents.add(temp);
+           String className=element.getName();
+           MapItem temp=null;
+           try {
+               Class classObj=Class.forName(className);   // Java reflection
+               temp=(MapItem) classObj.newInstance();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+           if(temp!=null){
+               temp.decode(element);
+               contents.add(temp);
+           }
        }
        initTheGridMap(contents);
    }
@@ -119,7 +129,6 @@ public class GridMap extends Observable implements Archivable{
 
 
     public Element encode(){
-
         Element element = new DefaultElement(GRID_MAP);
         element.addElement(MAP_NAME).addText(this.mapName);
         element.addElement(ROWS_NUM).addText(String.valueOf(this.rowsNum));

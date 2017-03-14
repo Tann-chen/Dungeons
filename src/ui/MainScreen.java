@@ -2,6 +2,11 @@ package ui;
 
 import characters.CharacterManager;
 import items.EquipmentManager;
+import ui.editors.CampaignEditorScreen;
+import ui.editors.CharacterEditorScreen;
+import ui.editors.ItemEditorScreen;
+import ui.editors.MapEditorScreen;
+import ui.play.StartGameScreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,6 +85,9 @@ public class MainScreen extends Screen{
         jbtStartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                StartGameScreen startGameScreen=new StartGameScreen();
+                MainScreen.this.belongWindow.pushScreen(startGameScreen);
+                startGameScreen.setBelongWindow(MainScreen.this.belongWindow);
             }
         });
 

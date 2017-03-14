@@ -68,7 +68,6 @@ public class MapItem implements Archivable{
         this.itemType= Integer.parseInt(element.element(ITEM_TYPE).getText());
         this.across=Boolean.parseBoolean(element.element(ACROSS).getText());
         //this.itemImage=element.element(ITEM_IMAGE).getText();
-
     }
 
     public Element encode(){

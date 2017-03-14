@@ -64,7 +64,6 @@ public abstract class Equipment implements Archivable {
      * the subclass of Equipment will override them
      * the methods will be used in EditItemView and Archiving.
      */
-    //这两个方法用于获取一个装备对象所加成属性的属性类型和属性值。 用于UI，当用户编辑装备时，用于显示装备目前加了什么值。
     public abstract String getEnchantmentBonusType();
     public abstract int getBonusValue();
 
@@ -81,7 +80,6 @@ public abstract class Equipment implements Archivable {
      * the method is used to encode the data related to an equipment
      * @return an element in xml tree
      */
-    // 将装备的属性值转化成element对象。
     @Override
     public Element encode(){
 
@@ -94,7 +92,6 @@ public abstract class Equipment implements Archivable {
      * the method is used to decode an element to the data of an equipment
      * @param element an element in xml tree
      */
-    //将XML对象转化成属性值
     @Override
     public void decode(Element element){this.equipName=element.element(EQUIP_NAME).getText();}
 

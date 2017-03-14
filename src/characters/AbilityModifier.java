@@ -69,9 +69,7 @@ public class AbilityModifier {
         this.armorClass += armorClassBonus;
     }
 
-    public void adjustAttackBonus(int attackBonus) {
-        this.attackBonus += attackBonus;
-    }
+    public void adjustAttackBonus(int attackBonus) {this.attackBonus += attackBonus;}
 
     public void adjustDamageBonus(int damageBonus) {
         this.damageBonus += damageBonus;
