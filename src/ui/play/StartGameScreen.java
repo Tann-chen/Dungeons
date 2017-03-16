@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * The method is used to build the screen of starting game with the functions of selecting character and campaign to play
+ * The method is used to build the screen of starting game with the functions of selecting character and campaign to PlayControl
  * @author Tann chen
  */
 public class StartGameScreen extends Screen {

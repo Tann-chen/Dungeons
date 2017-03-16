@@ -93,7 +93,6 @@ public class SelectMapItemDialog extends JDialog {
             buttons[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // TODO Auto-generated method stub
 
                     int index=Integer.parseInt(((JButton) e.getSource()).getName());
                     selectedType=itemTypes[index];
@@ -105,7 +104,6 @@ public class SelectMapItemDialog extends JDialog {
         buttons[itemTypes.length-1].addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
                 jcomCharacters.setVisible(true);
                 jbtFriendly.setVisible(true);
                 jbtHostile.setVisible(true);
@@ -115,7 +113,6 @@ public class SelectMapItemDialog extends JDialog {
         jbtFriendly.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
                 if(jcomCharacters.getSelectedIndex()==-1)
                     return;
                 selectedCharacter=(String)jcomCharacters.getSelectedItem();
@@ -128,7 +125,6 @@ public class SelectMapItemDialog extends JDialog {
         jbtHostile.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
                 if(jcomCharacters.getSelectedIndex()==-1)
                     return;
                 selectedCharacter=(String)jcomCharacters.getSelectedItem();

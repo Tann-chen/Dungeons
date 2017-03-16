@@ -13,7 +13,6 @@ public class Screen extends JPanel{
     public Screen(){
         this.setLayout(null);
         this.setSize(800,600);
-
     }
 
     /* Uniform JComponents style*/

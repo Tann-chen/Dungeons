@@ -14,7 +14,7 @@ public class MapIcons {
     public ImageIcon iconExit;
     public ImageIcon iconWall;
     public ImageIcon iconChest;
-    public ImageIcon iconFloor;
+    public ImageIcon iconBgc;
     //solo instance
     private static MapIcons mapIconsManager;
 
@@ -40,6 +40,7 @@ public class MapIcons {
         iconExit = new ImageIcon("icon/exit.jpg");
         iconWall = new ImageIcon("icon/wall.jpg");
         iconChest = new ImageIcon("icon/chest.jpg");
+        iconBgc =new ImageIcon("icon/bgc.jpg");
     }
 
     public ImageIcon getIcons(int typeName)
@@ -58,6 +59,10 @@ public class MapIcons {
             return iconChest;
         else
             return null;
+    }
+
+    public ImageIcon getBackground(){
+        return iconBgc;
     }
 
 }

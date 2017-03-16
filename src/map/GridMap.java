@@ -27,6 +27,10 @@ public class GridMap extends Observable implements Archivable{
     private int columnsNum;
     private MapItem[][] mapItems;
 
+    //record entry/exit
+    private MapItem theEntry;
+    private MapItem theExit;
+
     /**
      * The default constructor
      * Only used in load data from xml file, the mapItem[][] will be initialize in decode()method
@@ -53,18 +57,47 @@ public class GridMap extends Observable implements Archivable{
 
     public MapItem[][] getMapItems() {return mapItems;}
 
+    /**
+     * The method is to set a new mapItem to a location in editing time or creating time
+     */
     public void setItem(MapItem item){
         int row =item.getYLocate();
         int column=item.getXLocate();
         this.mapItems[row][column]=item;
+        if(item.getItemType()==MapItem.ENTRY)
+            this.theEntry=item;
+        if(item.getItemType()==MapItem.EXIT)
+            this.theExit=item;
         setChanged();
         notifyObservers(this);
     }
 
-    public void setItem(MapItem item, int x, int y){
-        this.mapItems[y][x]=item;
-    }
+    /**
+     * The method is to move the pointed mapItem to a location in playing screen
+     */
+    public boolean moveItemTo(MapItem targetItem,int destRow,int destColumn){
 
+        MapItem destItem=mapItems[destRow][destColumn];
+        if(destItem.isAcross()==false){
+            System.out.println("The destination can be accessed");
+            return false;
+        }
+        else{
+            int oldRowinfo=targetItem.getYLocate();
+            int oldColumninfo=targetItem.getXLocate();
+            //deal with original grid
+            if(oldRowinfo==theEntry.getYLocate() && oldColumninfo==theEntry.getXLocate())
+                setItem(theEntry);
+            else if(oldRowinfo==theExit.getYLocate() && oldColumninfo==theExit.getXLocate())
+                setItem(theExit);
+            else
+                mapItems[oldRowinfo][oldColumninfo]=null;
+            //move to destination
+            targetItem.setLocation(destColumn,destRow);
+            setItem(targetItem);
+            return true;
+        }
+    }
 
     public void initTheGridMap(ArrayList<MapItem> contents){
         if(contents.size()==0)
@@ -76,6 +109,19 @@ public class GridMap extends Observable implements Archivable{
         }
 
     }
+
+    public MapItem findSpecificMapItem(int itemType){
+        MapItem target=null;
+        for(int r=0; r<this.rowsNum; r++) {
+            for (int c = 0; c < this.columnsNum; c++) {
+                if(mapItems[r][c].getItemType()==itemType)
+                    target=mapItems[r][c];
+            }
+        }
+        return target;
+    }
+
+
 
 
                /* Archiving */
@@ -127,7 +173,6 @@ public class GridMap extends Observable implements Archivable{
     public static final String ROWS_NUM="RowsNum";
     public static final String COLUMNS_NUM="ColumnsNum";
 
-
     public Element encode(){
         Element element = new DefaultElement(GRID_MAP);
         element.addElement(MAP_NAME).addText(this.mapName);
@@ -165,6 +210,5 @@ public class GridMap extends Observable implements Archivable{
             decode(element);
         }
     }
-
 
 }

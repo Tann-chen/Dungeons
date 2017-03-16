@@ -65,6 +65,12 @@ public class Campaign implements Archivable{
         if(this.campaign[index]!=null)
             this.campaign[index]=null;
     }
+    /**
+     * The method is to get the indexed gridMap in the campaign
+     */
+    public GridMap getTheGridMap(int index){
+        return this.campaign[index];
+    }
 
 
     /* Archive*/

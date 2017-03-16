@@ -24,7 +24,7 @@ public class MapItem implements Archivable{
     private int XLocate;
     private int YLocate;
     private int itemType;
-    private boolean across=false;    // can be acrossed or not
+    private boolean across=true;    // can be acrossed or not
     private String itemImage;
 
     public void setLocation(int x ,int y){
@@ -34,12 +34,12 @@ public class MapItem implements Archivable{
 
     public void setItemType(int type){
         itemType=type;
-        if(type==FLOOR)
-            across=true;
-        if(type==ENTRY)
-            across=true;
-        if(type==EXIT)
-            across=true;
+        if(type==WALL)
+            across=false;
+        if(type==CHEST)
+            across=false;
+        if(type==CHARACTER)
+            across=false;
     }
     public int getItemType(){return itemType;}
 
@@ -50,6 +50,8 @@ public class MapItem implements Archivable{
     public int getYLocate() {
         return YLocate;
     }
+
+    public boolean isAcross() {return across;}
 
     public static final String MAP_ITEM="MapItem";
     public static final String X_LOCATION="XLocation";
